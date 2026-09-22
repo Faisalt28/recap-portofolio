@@ -403,8 +403,8 @@ export const projectsList: ProjectItem[] = [
     solution:
       "ArtoZ menyediakan aplikasi Android native yang 100% offline-first dengan database lokal Room SQLite. Mahasiswa dapat mencatat transaksi secepat kilat, melihat rekapitulasi pos pengeluaran dalam pie chart, dan membandingkan cash flow bulanan lewat bar chart interaktif.",
     techArchitecture: {
-      frontendOrMobile: "Android Studio, Kotlin, XML Layouts, Material Design 3, ViewBinding, MPAndroidChart",
-      backendOrDatabase: "Room Database (SQLite ORM Offline-First), Android DataStore",
+      frontendOrMobile: "Kotlin, XML Layouts, ViewBinding",
+      backendOrDatabase: "Room Database (SQLite Offline-First), Android DataStore",
       architectureOrPattern: "MVVM (Model-View-ViewModel), Repository Pattern, Kotlin Coroutines, LiveData",
     },
     screenshots: [
@@ -464,7 +464,7 @@ export const projectsList: ProjectItem[] = [
     ],
     architecture: [
       { label: "Platform Mobile", value: "Android Native (Kotlin)" },
-      { label: "Database Lokal", value: "Room ORM over SQLite (Offline-First)" },
+      { label: "Database Lokal", value: "Room Database (SQLite Offline-First)" },
       { label: "Pola Arsitektur", value: "MVVM (Model-View-ViewModel) + Repository Pattern" },
       { label: "Charting Library", value: "MPAndroidChart (Interactive Bar & Pie Chart)" },
       { label: "Komponen UI", value: "Material 3, ViewBinding, RecyclerView" },
