@@ -477,7 +477,7 @@ export const projectsList: ProjectItem[] = [
       "Aplikasi Android untuk pendataan mahasiswa yang terintegrasi dengan Geolocation API. Dilengkapi fitur pemetaan lokasi tempat tinggal pada peta interaktif, integrasi kontak WhatsApp instan, dan pengelolaan profil akademik.",
     imgSrc: "/projects/findthem.png",
     videoSrc: "/projects/findthem-demo.mp4",
-    link: "https://github.com/Faisalt28",
+    link: "https://github.com/Faisalt28/Mobile-FindThem",
     linkText: "Repository GitHub",
     category: "android",
     badge: "Android",
@@ -487,15 +487,14 @@ export const projectsList: ProjectItem[] = [
       "Android Studio",
       "Kotlin",
       "Google Maps API",
-      "Geolocation API",
       "Room Database (SQLite)",
       "ViewBinding",
       "Material 3",
       "WhatsApp Intent",
     ],
-    githubLink: "https://github.com/Faisalt28",
+    githubLink: "https://github.com/Faisalt28/Mobile-FindThem",
     overview:
-      "FindThem dibangun untuk mempermudah pencatatan dan pelacakan data tempat tinggal mahasiswa. Aplikasi ini menggabungkan formulir biodata akademik dengan sistem Geolocation API untuk memetakan koordinat domisili mahasiswa ke dalam peta interaktif, serta menyediakan integrasi tombol komunikasi cepat langsung ke nomor WhatsApp mahasiswa terkait.",
+      "FindThem dibangun untuk mempermudah pencatatan dan pelacakan data tempat tinggal mahasiswa. Aplikasi ini menggabungkan formulir biodata akademik dengan sistem Google Maps API untuk memetakan koordinat domisili mahasiswa ke dalam peta interaktif.",
     problem:
       "Pendataan mahasiswa secara konvensional sering kali hanya berupa teks alamat yang sulit diverifikasi keakuratannya di lapangan dan tidak memberikan gambaran visual sebaran geografis tempat tinggal mahasiswa untuk keperluan koordinasi atau kunjungan darurat.",
     solution:
@@ -503,7 +502,7 @@ export const projectsList: ProjectItem[] = [
     techArchitecture: {
       frontendOrMobile: "Android Studio, Kotlin, XML Layouts, Material Design 3, ViewBinding",
       backendOrDatabase: "Room Database (SQLite), Android DataStore",
-      architectureOrPattern: "MVVM (Model-View-ViewModel), Repository Pattern, Google Maps SDK Integration",
+      architectureOrPattern: "MVVM (Model-View-ViewModel), Google Maps SDK Integration",
     },
     screenshots: [
       {
@@ -564,7 +563,7 @@ export const projectsList: ProjectItem[] = [
       { label: "Platform Mobile", value: "Android Native (Kotlin)" },
       { label: "Peta & Lokasi", value: "Google Maps Android SDK & Geolocation API" },
       { label: "Database Lokal", value: "Room Database (SQLite Offline-First)" },
-      { label: "Pola Arsitektur", value: "MVVM (Model-View-ViewModel) + Repository Pattern" },
+      { label: "Pola Arsitektur", value: "MVVM (Model-View-ViewModel), Google Maps SDK Integration" },
       { label: "Komunikasi Eksternal", value: "WhatsApp Direct Intent (URI Scheme https://wa.me)" },
       { label: "Komponen UI", value: "Material 3, ViewBinding, Custom Circular Markers" },
     ],
