@@ -376,7 +376,7 @@ export const projectsList: ProjectItem[] = [
     title: "ArtoZ — Manajemen Keuangan Mahasiswa",
     shortTitle: "ArtoZ",
     description:
-      "Aplikasi Android untuk manajemen keuangan mahasiswa sehari-hari. Mencatat pemasukan dan pengeluaran dengan kategori yang relevan untuk mahasiswa, dilengkapi visualisasi bar chart dan pie chart untuk memantau kondisi finansial secara menyeluruh.",
+      "Aplikasi Android untuk manajemen keuangan mahasiswa sehari-hari. Mencatat pemasukan dan pengeluaran dengan kategori yang relevan untuk mahasiswa, dilengkapi visualisasi grafik interaktif untuk memantau kondisi finansial secara menyeluruh.",
     imgSrc: "/projects/artoz-splash.png",
     videoSrc: "/projects/artoz-demo.mp4",
     link: "https://github.com/Faisalt28/Mobile-Artoz-Offline",
@@ -401,7 +401,7 @@ export const projectsList: ProjectItem[] = [
     problem:
       "Mahasiswa sering mengalami defisit keuangan di akhir bulan karena tidak mencatat pengeluaran kecil harian. Sebagian besar aplikasi finansial di Play Store membutuhkan kuota internet, memiliki fitur perbankan yang terlalu rumit, dan tidak menyediakan kategori yang relevan dengan kebutuhan khas perkuliahan.",
     solution:
-      "ArtoZ menyediakan aplikasi Android native yang 100% offline-first dengan database lokal Room SQLite. Mahasiswa dapat mencatat transaksi secepat kilat, melihat rekapitulasi pos pengeluaran dalam pie chart, dan membandingkan cash flow bulanan lewat visualisasi grafik interaktif WebView.",
+      "ArtoZ menyediakan aplikasi Android native yang 100% offline-first dengan database lokal Room SQLite. Mahasiswa dapat mencatat transaksi secepat kilat dan memantau kondisi finansial secara menyeluruh lewat visualisasi grafik interaktif WebView.",
     techArchitecture: {
       frontendOrMobile: "Kotlin, XML Layouts, ViewBinding, Android WebView",
       backendOrDatabase: "Room Database (SQLite Offline-First), Android DataStore",
@@ -450,12 +450,8 @@ export const projectsList: ProjectItem[] = [
         desc: "Kategori spesifik: Uang Saku, Biaya Kos, Makan & Minuman, Fotokopi & ATK, Pulsa & Kuota, serta Hiburan.",
       },
       {
-        title: "Bar Chart Arus Kas Bulanan",
-        desc: "Visualisasi perbandingan total pemasukan vs pengeluaran per bulan menggunakan Chart.js yang dirender secara responsif lewat Android WebView.",
-      },
-      {
-        title: "Pie Chart Distribusi Pengeluaran",
-        desc: "Diagram lingkaran interaktif dengan legend dinamis untuk memantau pos belanja mana yang paling banyak menghabiskan anggaran bulanan.",
+        title: "Ringkasan Saldo & Arus Kas",
+        desc: "Pantau akumulasi saldo berjalan, total pemasukan, dan pos pengeluaran bulanan secara real-time.",
       },
       {
         title: "Filter & Riwayat Transaksi Fleksibel",
