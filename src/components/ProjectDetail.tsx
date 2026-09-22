@@ -614,7 +614,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
               <div>
                 <h3 className="text-sm sm:text-base font-bold mb-3 sm:mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                   <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                  <span>Fitur Kunci Aplikasi</span>
+                  <span>Fitur Utama Aplikasi</span>
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {project.features.map((feat, idx) => (
@@ -636,6 +636,48 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
               </div>
             )}
           </section>
+
+
+          {/* ========================================================================= */}
+          {/* 6. METRIK & HASIL */}
+          {/* ========================================================================= */}
+          {project.metrics && project.metrics.length > 0 && (
+            <section>
+              <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: 'var(--text-primary)' }}>
+                Metrik & Hasil
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5">
+                {project.metrics.map((metric, idx) => (
+                  <div
+                    key={idx}
+                    className="p-5 sm:p-6 rounded-2xl flex flex-col justify-between"
+                    style={{
+                      background: 'var(--bg-card)',
+                      border: '1px solid var(--border)',
+                      boxShadow: 'var(--shadow)',
+                    }}
+                  >
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="w-2 h-2 rounded-full" style={{ background: accentColor }} />
+                        <span className="text-xs font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+                          {metric.label}
+                        </span>
+                      </div>
+                      <div className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1.5" style={{ color: accentColor }}>
+                        {metric.value}
+                      </div>
+                    </div>
+                    {metric.detail && (
+                      <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                        {metric.detail}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
 
           {/* ========================================================================= */}
