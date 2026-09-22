@@ -10,12 +10,6 @@ export interface ProjectScreenshot {
   caption: string;
 }
 
-export interface ProjectMetric {
-  label: string;
-  value: string;
-  detail?: string;
-}
-
 export interface ProjectItem {
   id: string;
   title: string;
@@ -56,19 +50,16 @@ export interface ProjectItem {
   // Spesifikasi detail tambahan
   architecture?: { label: string; value: string }[];
   highlights?: { title: string; desc: string }[];
-
-  // Metrik & Hasil
-  metrics?: ProjectMetric[];
 }
 
 export const projectsList: ProjectItem[] = [
   // Proyek 1: AcheeZ
   {
     id: "acheez",
-    title: "AcheeZ — Personal Financial Management",
+    title: "AcheeZ — Manajemen Keuangan Pribadi",
     shortTitle: "AcheeZ",
     description:
-      "Platform manajemen keuangan pribadi dengan arsitektur Serverless Edge untuk pelacakan arus kas multi-akun, penganggaran dinamis, dan kalkulasi mutasi saldo atomik berkecepatan tinggi.",
+      "Aplikasi pencatat keuangan modern untuk memantau pemasukan, pengeluaran, dan saldo di berbagai rekening (Bank, E-Wallet, Uang Tunai) secara otomatis dan instan.",
     imgSrc: "/projects/acheez.png",
     videoSrc: "/projects/acheez-demo-compressed.mp4",
     link: "https://acheez.pages.dev/",
@@ -78,105 +69,92 @@ export const projectsList: ProjectItem[] = [
     date: "Desember 2024 – Januari 2025",
     role: "Full-Stack Developer (Solo Developer)",
     techStack: [
-      "React 19",
-      "TypeScript/JSX",
-      "Vite",
-      "Tailwind CSS v4",
+      "React",
+      "Tailwind CSS",
       "Zustand",
       "Recharts",
-      "Framer Motion",
       "Hono.js",
       "Cloudflare Workers",
-      "Cloudflare D1 (SQL)",
-      "Cloudflare Pages",
-      "Web Crypto API",
+      "Cloudflare D1 Database",
     ],
     githubLink: "https://github.com/Faisalt28/react-financial-management",
     overview:
-      "AcheeZ dibangun untuk menyelesaikan kendala utama dalam pencatatan keuangan harian: lambatnya proses pencatatan akibat cold-start server, risiko selisih saldo saat transfer antar-akun (Bank, E-Wallet, Kas Tunai), serta ketiadaan sistem peringatan dini sebelum pengeluaran melampaui anggaran. Platform ini menghadirkan dashboard terpusat yang responsif.",
+      "Banyak orang malas mencatat keuangan karena dua hal:\n1. Aplikasi terasa lambat saat dibuka di kasir/toko.\n2. Repot menghitung manual saat memindahkan uang antar-rekening (misal: isi saldo Gopay dari Bank BCA, saldo sering tidak sinkron).\n\nAcheeZ dibuat agar proses pencatatan berlangsung instan dan saldo di semua rekening otomatis terhitung rapi tanpa perlu hitung ulang manual.\n\n*Catatan: Seluruh data rekening dan mutasi saldo diinput secara manual oleh pengguna (bukan sinkronisasi langsung dengan API perbankan).",
     problem:
-      "Pencatatan keuangan manual melalui catatan spreadsheet atau aplikasi konvensional sering kali lambat dibuka di smartphone, rawan terjadi selisih saldo saat melakukan transfer antar-rekening (misal top-up e-wallet), dan tidak memiliki sistem pengingat visual proaktif sebelum kuota anggaran per kategori belanja terlampaui.",
+      "Aplikasi keuangan yang lambat dibuka di kasir toko serta kerumitan menghitung manual saat transfer antar-rekening yang rawan menyebabkan saldo tidak sinkron.",
     solution:
-      "AcheeZ menghadirkan ekosistem full-stack serverless edge: mutasi saldo transfer atomik di Cloudflare D1 (mencegah desinkronisasi saldo), sistem Smart Budgeting dengan visualisasi status otomatis, serta antarmuka responsif dengan grafik arus kas real-time.",
+      "AcheeZ memastikan proses pencatatan berlangsung instan dan saldo di semua rekening otomatis terhitung rapi secara atomik tanpa perlu hitung ulang manual.",
     techArchitecture: {
-      frontendOrMobile: "React 19, TypeScript/JSX, Vite, Tailwind CSS v4, Zustand, Recharts, Framer Motion",
-      backendOrDatabase: "Hono.js on Cloudflare Workers Runtime (V8 Isolates) & Cloudflare D1 (Serverless Distributed Relational SQL / SQLite at Edge)",
-      architectureOrPattern: "Serverless Edge Computing, RESTful API, D1 Batch Transactions (ACID), Stateless JWT Auth + Native PBKDF2 Hashing",
+      frontendOrMobile: "React, Tailwind CSS (Tampilan modern dan rapi di HP maupun Laptop)",
+      backendOrDatabase: "Hono.js, Cloudflare Workers & D1 Database (Teknologi cloud modern tanpa server fisik, membuat aplikasi sangat ringan dan cepat dibuka)",
+      architectureOrPattern: "Zustand (Manajemen Data Layar real-time tanpa refresh) & Recharts (Grafik diagram interaktif)",
     },
     challenges: [
       {
-        title: "Konsistensi Mutasi Saldo via D1 Atomic Batch Transactions",
+        title: "Transfer Antar-Rekening Aman (Anti Uang Hilang)",
         problem:
-          "Pada mutasi transfer antar-akun (memotong saldo akun asal dan menambah saldo akun tujuan), gangguan jaringan di tengah proses berisiko memicu race condition atau saldo hilang di satu sisi.",
+          "Saat transfer uang dari Bank ke E-Wallet, ada dua langkah: saldo Bank berkurang, saldo E-Wallet bertambah. Jika internet mendadak putus di tengah proses, saldo Bank bisa terpotong padahal E-Wallet belum bertambah.",
         solution:
-          "Mengimplementasikan transaksi batch atomik bawaan Cloudflare D1 (c.env.DB.batch). Kueri pemotongan saldo asal, penambahan saldo tujuan, dan pencatatan riwayat transaksi dieksekusi dalam satu siklus transaksi ACID. Jika salah satu kueri gagal, sistem secara otomatis melakukan rollback penuh ke status awal.",
+          "Kedua langkah tersebut saya jadikan \"satu paket wajib\". Jika salah satu proses gagal, sistem otomatis membatalkan semuanya dan mengembalikan saldo ke keadaan semula. Uang tidak akan pernah nyangkut.",
       },
       {
-        title: "Differential Balance Reversal Logic saat Mutasi Diedit / Dihapus",
+        title: "Saldo Otomatis Menyesuaikan saat Transaksi Diedit atau Dihapus",
         problem:
-          "Mengoreksi nominal transaksi lampau atau membatalkan mutasi transfer rawan memicu duplikasi selisih nilai atau inkonsistensi saldo historis.",
+          "Jika pengguna salah mencatat pengeluaran (misal mencatat Rp 50.000 padahal aslinya Rp 30.000) lalu mengeditnya, saldo rekening bisa kacau jika perhitungannya salah.",
         solution:
-          "Merancang differential reversal algorithm pada service layer Hono: backend mengambil snapshot transaksi lama, me-revert saldo akun terkait ke posisi sebelum transaksi dibuat, kemudian mengaplikasikan nilai mutasi baru secara atomik dalam satu pipeline D1.",
+          "Sistem diprogram dengan logika 2 langkah: saldo lama dikembalikan dulu secara utuh ke rekening, baru kemudian sistem memotong nominal yang baru. Saldo dijamin selalu cocok dengan mutasi fisik.",
       },
       {
-        title: "Zero Cold-Start & Latensi Sub-50ms di Serverless Edge",
+        title: "Aplikasi Langsung Terbuka Cepat (Tanpa Loading Muter-Muter)",
         problem:
-          "Backend serverless berbasis kontainer konvensional kerap mengalami cold-start 1–3 detik, menurunkan pengalaman pengguna saat ingin mencatat pengeluaran kilat di kasir.",
+          "Banyak aplikasi web serverless butuh waktu 2–3 detik hanya untuk \"bangun\" saat pertama kali dibuka.",
         solution:
-          "Memilih micro-framework Hono.js yang berjalan di atas Cloudflare Workers V8 Isolates. Tanpa bootstrap OS/kontainer, cold-start tereliminasi (~0ms) dan waktu respon API konsisten di bawah 50ms secara global.",
-      },
-      {
-        title: "Native Web Crypto API untuk Keamanan Kredensial",
-        problem:
-          "Runtime V8 Workers tidak mendukung library native Node.js seperti bcrypt, sementara dependensi pihak ketiga memperbesar ukuran bundle.",
-        solution:
-          "Mengimplementasikan password hashing satu arah berbasis Web Crypto API native standar browser/worker menggunakan PBKDF2 (100.000 iterasi SHA-256 dan 16-byte random salt unik), dilengkapi proteksi stateless JWT dan mekanisme reset via OTP.",
+          "Menggunakan Cloudflare Workers yang selalu siaga di jaringan global, sehingga aplikasi langsung merespon dalam hitungan milidetik.",
       },
     ],
     features: [
       {
-        title: "Multi-Account & Wealth Tracking",
-        desc: "Pelacakan saldo konsolidasi secara real-time dari berbagai rekening (Bank, E-Wallet, Uang Tunai).",
+        title: "Banyak Akun/Dompet",
+        desc: "Bisa memantau saldo BCA, Mandiri, Gopay, OVO, hingga Uang Tunai di satu layar. (Catatan: Rekening & saldo diinput secara manual oleh pengguna, bukan sinkronisasi otomatis dengan API bank).",
       },
       {
-        title: "Pencatatan Transaksi 3 Arah",
-        desc: "Pemasukan, pengeluaran, serta mutasi transfer yang langsung mengupdate saldo akun terkait secara instan tanpa reload halaman.",
+        title: "Catat Transaksi & Transfer Cepat",
+        desc: "Pemasukan, pengeluaran, dan transfer langsung memotong/menambah saldo secara otomatis.",
       },
       {
-        title: "Smart Budgeting & Warning Status",
-        desc: "Penetapan pagu anggaran bulanan per kategori dengan indikator visual otomatis (Aman, Perhatian, Hampir Habis, Terlampaui).",
+        title: "Batas Pengeluaran (Budgeting)",
+        desc: "Mengatur batas belanja per kategori (misal: jajan max 1 juta/bulan) lengkap dengan indikator warna jika uang sudah mau habis.",
       },
       {
-        title: "Milestone Goals & Deposit Flow",
-        desc: "Perencanaan target tabungan dengan fitur setor dana langsung dari saldo dompet aktif ke target tabungan.",
+        title: "Celengan / Target Tabungan",
+        desc: "Membuat target tabungan (misal: beli laptop) dan bisa langsung \"setor uang\" dari rekening bank yang dipilih.",
       },
       {
-        title: "Analitik Arus Kas Interaktif",
-        desc: "Visualisasi tren pengeluaran bulanan dan diagram proporsi kategori belanja berbasis Recharts.",
+        title: "Laporan Grafik Keuangan",
+        desc: "Melihat ke mana uang paling banyak habis setiap bulannya lewat grafik yang mudah dipahami.",
       },
     ],
     architecture: [
-      { label: "Frontend", value: "React 19, TypeScript/JSX, Vite, Tailwind CSS v4, Zustand, Recharts, Framer Motion" },
-      { label: "Backend", value: "Hono.js on Cloudflare Workers Runtime (V8 Isolates)" },
-      { label: "Database", value: "Cloudflare D1 (Serverless Distributed Relational SQL / SQLite at Edge)" },
-      { label: "Arsitektur", value: "Serverless Edge Computing, RESTful API, D1 Batch Transactions (ACID), Stateless JWT Auth + Native PBKDF2 Hashing" },
-      { label: "Deployment", value: "Cloudflare Pages (Frontend CDN) & Cloudflare Workers (Edge API)" },
+      { label: "Tampilan (Frontend)", value: "React & Tailwind CSS (Modern & Rapi di HP maupun Laptop)" },
+      { label: "Manajemen Data Layar", value: "Zustand (Angka saldo berubah seketika tanpa refresh halaman)" },
+      { label: "Grafik Pengeluaran", value: "Recharts (Diagram pengeluaran interaktif)" },
+      { label: "Backend API", value: "Hono.js (Web Standards Ultra-Fast API)" },
+      { label: "Komputasi Cloud / Server", value: "Cloudflare Workers (Jaringan edge global, respon milidetik)" },
+      { label: "Database Layer", value: "Cloudflare D1 Database (SQL Cloud Tanpa Server Fisik)" },
+      { label: "Metode Input Rekening", value: "Input Manual oleh Pengguna (Bukan Sinkronisasi API Bank)" },
     ],
-    metrics: [
+    highlights: [
       {
-        label: "Cold-Start",
-        value: "~0 ms",
-        detail: "Arsitektur V8 Isolate",
+        title: "Transfer Atomik Anti Uang Hilang",
+        desc: "Mutasi debet dan kredit antar-rekening dieksekusi dalam satu paket batch wajib dengan rollback otomatis jika terjadi kegagalan.",
       },
       {
-        label: "Response Time API",
-        value: "Rata-rata <50 ms",
-        detail: "Latensi global",
+        title: "Logika Reversal Saldo Otomatis",
+        desc: "Saldo lama dikembalikan utuh sebelum nominal mutasi baru diaplikasikan saat transaksi diedit atau dihapus.",
       },
       {
-        label: "Integritas Data",
-        value: "100% Konsisten",
-        detail: "Berkat D1 Batch Transactions (Zero orphaned transfers)",
+        title: "Serverless Edge Tanpa Loading",
+        desc: "Cloudflare Workers memastikan aplikasi langsung terbuka responsif dalam hitungan milidetik.",
       },
     ],
   },

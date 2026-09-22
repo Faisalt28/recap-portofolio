@@ -212,7 +212,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
           {/* ========================================================================= */}
           <section>
             <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: 'var(--text-primary)' }}>
-              Ringkasan Proyek
+              Kenapa Proyek Ini Dibuat?
             </h2>
 
             {/* Apa tujuan aplikasi ini dibuat? */}
@@ -224,7 +224,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
                 boxShadow: 'var(--shadow)',
               }}
             >
-              <p className="break-words" style={{ color: 'var(--text-secondary)' }}>
+              <p className="break-words whitespace-pre-line" style={{ color: 'var(--text-secondary)' }}>
                 {project.overview}
               </p>
             </div>
@@ -237,7 +237,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
           <section>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 sm:mb-6">
               <h2 className="text-xl sm:text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                Tech Stack & Arsitektur
+                Teknologi yang Digunakan
               </h2>
             </div>
 
@@ -546,74 +546,76 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
 
 
           {/* ========================================================================= */}
-          {/* 5. FITUR KUNCI & TANTANGAN TEKNIS (TECHNICAL HIGHLIGHTS) */}
+          {/* 5. TANTANGAN LOGIKA TEKNIS & FITUR UTAMA */}
           {/* ========================================================================= */}
           <section>
-            <h2 className="text-xl sm:text-3xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
-              Fitur Kunci & Tantangan Teknis
-            </h2>
-
             {/* 2-3 Technical Challenges */}
             {project.challenges && project.challenges.length > 0 && (
-              <div className="space-y-4 mb-8 sm:mb-10">
-                {project.challenges.map((ch, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 sm:p-6 rounded-2xl transition-all"
-                    style={{
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border)',
-                      boxShadow: 'var(--shadow)',
-                    }}
-                  >
-                    <div className="flex items-start gap-3 sm:gap-4">
-                      {/* Index badge */}
-                      <span
-                        className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 font-mono text-xs font-bold"
-                        style={{ background: accentBg, color: accentColor, border: `1px solid ${accentBorder}` }}
-                      >
-                        0{idx + 1}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-sm sm:text-base font-bold mb-2.5 sm:mb-3 break-words" style={{ color: 'var(--text-primary)' }}>
-                          {ch.title}
-                        </h3>
+              <div className="mb-8 sm:mb-10">
+                <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: 'var(--text-primary)' }}>
+                  {project.challenges.length} Tantangan Logika Teknis yang Berhasil Diselesaikan
+                </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                          {/* Problem block */}
-                          <div
-                            className="p-3.5 sm:p-4 rounded-xl text-xs leading-relaxed"
-                            style={{ background: 'var(--bg-subtle)', border: '1px solid rgba(239,68,68,0.2)' }}
-                          >
-                            <span className="font-semibold text-rose-500 block mb-1">
-                              Tantangan yang Dihadapi:
-                            </span>
-                            <span className="break-words" style={{ color: 'var(--text-secondary)' }}>{ch.problem}</span>
-                          </div>
+                <div className="space-y-4">
+                  {project.challenges.map((ch, idx) => (
+                    <div
+                      key={idx}
+                      className="p-4 sm:p-6 rounded-2xl transition-all"
+                      style={{
+                        background: 'var(--bg-card)',
+                        border: '1px solid var(--border)',
+                        boxShadow: 'var(--shadow)',
+                      }}
+                    >
+                      <div className="flex items-start gap-3 sm:gap-4">
+                        {/* Index badge */}
+                        <span
+                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 font-mono text-xs font-bold"
+                          style={{ background: accentBg, color: accentColor, border: `1px solid ${accentBorder}` }}
+                        >
+                          0{idx + 1}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm sm:text-base font-bold mb-2.5 sm:mb-3 break-words" style={{ color: 'var(--text-primary)' }}>
+                            {ch.title}
+                          </h3>
 
-                          {/* Solution block */}
-                          <div
-                            className="p-3.5 sm:p-4 rounded-xl text-xs leading-relaxed"
-                            style={{ background: 'var(--bg-subtle)', border: `1px solid ${accentBorder}` }}
-                          >
-                            <span className="font-semibold block mb-1" style={{ color: accentColor }}>
-                              Solusi Teknis & Dampak:
-                            </span>
-                            <span className="break-words" style={{ color: 'var(--text-secondary)' }}>{ch.solution}</span>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                            {/* Problem block */}
+                            <div
+                              className="p-3.5 sm:p-4 rounded-xl text-xs leading-relaxed"
+                              style={{ background: 'var(--bg-subtle)', border: '1px solid rgba(239,68,68,0.2)' }}
+                            >
+                              <span className="font-semibold text-rose-500 block mb-1">
+                                Masalah:
+                              </span>
+                              <span className="break-words" style={{ color: 'var(--text-secondary)' }}>{ch.problem}</span>
+                            </div>
+
+                            {/* Solution block */}
+                            <div
+                              className="p-3.5 sm:p-4 rounded-xl text-xs leading-relaxed"
+                              style={{ background: 'var(--bg-subtle)', border: `1px solid ${accentBorder}` }}
+                            >
+                              <span className="font-semibold block mb-1" style={{ color: accentColor }}>
+                                Solusi:
+                              </span>
+                              <span className="break-words" style={{ color: 'var(--text-secondary)' }}>{ch.solution}</span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
 
             {/* Core Features Grid */}
             {project.features && project.features.length > 0 && (
               <div>
-                <h3 className="text-sm sm:text-base font-bold mb-3 sm:mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                <h3 className="text-lg sm:text-2xl font-bold mb-3 sm:mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                   <span>Fitur Utama Aplikasi</span>
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
@@ -636,48 +638,6 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
               </div>
             )}
           </section>
-
-
-          {/* ========================================================================= */}
-          {/* 6. METRIK & HASIL */}
-          {/* ========================================================================= */}
-          {project.metrics && project.metrics.length > 0 && (
-            <section>
-              <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{ color: 'var(--text-primary)' }}>
-                Metrik & Hasil
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-5">
-                {project.metrics.map((metric, idx) => (
-                  <div
-                    key={idx}
-                    className="p-5 sm:p-6 rounded-2xl flex flex-col justify-between"
-                    style={{
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border)',
-                      boxShadow: 'var(--shadow)',
-                    }}
-                  >
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="w-2 h-2 rounded-full" style={{ background: accentColor }} />
-                        <span className="text-xs font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
-                          {metric.label}
-                        </span>
-                      </div>
-                      <div className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-1.5" style={{ color: accentColor }}>
-                        {metric.value}
-                      </div>
-                    </div>
-                    {metric.detail && (
-                      <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                        {metric.detail}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
 
 
           {/* ========================================================================= */}
