@@ -509,7 +509,23 @@ export const projectsList: ProjectItem[] = [
       backendOrDatabase: "Room Database (SQLite), Android DataStore",
       architectureOrPattern: "MVVM (Model-View-ViewModel), Repository Pattern, Google Maps SDK Integration",
     },
-    screenshots: [],
+    screenshots: [
+      {
+        title: "Mockup Layar: Direktori & Pencarian Mahasiswa",
+        imgSrc: "/projects/findthem-dashboard.png",
+        caption: "Daftar kartu mahasiswa lengkap dengan foto profil, NIM, dan pencarian cepat.",
+      },
+      {
+        title: "Mockup Layar: Peta Geolocation & Marker Avatar",
+        imgSrc: "/projects/findthem-map.png",
+        caption: "Pemetaan sebaran tempat tinggal mahasiswa pada Google Maps dengan custom circular avatar marker.",
+      },
+      {
+        title: "Mockup Layar: Detail Profil & Kontak WhatsApp",
+        imgSrc: "/projects/findthem-detail.png",
+        caption: "Informasi domisili lengkap dengan tombol aksi cepat integrasi chat WhatsApp langsung.",
+      },
+    ],
     challenges: [
       {
         title: "Integrasi Geolocation API & Dynamic Map Markers",
@@ -550,10 +566,21 @@ export const projectsList: ProjectItem[] = [
     ],
     architecture: [
       { label: "Platform Mobile", value: "Android Native (Kotlin)" },
-      { label: "Map & Location", value: "Google Maps Android SDK & Geolocation API" },
-      { label: "Database Lokal", value: "Room ORM over SQLite" },
-      { label: "Komunikasi Eksternal", value: "WhatsApp Direct Intent (URI Parsing)" },
-      { label: "Komponen UI", value: "Material 3, ViewBinding, Dynamic Markers" },
+      { label: "Peta & Lokasi", value: "Google Maps Android SDK & Geolocation API" },
+      { label: "Database Lokal", value: "Room Database (SQLite Offline-First)" },
+      { label: "Pola Arsitektur", value: "MVVM (Model-View-ViewModel) + Repository Pattern" },
+      { label: "Komunikasi Eksternal", value: "WhatsApp Direct Intent (URI Scheme https://wa.me)" },
+      { label: "Komponen UI", value: "Material 3, ViewBinding, Custom Circular Markers" },
+    ],
+    highlights: [
+      {
+        title: "Pemetaan Visual Real-Time",
+        desc: "Integrasi Geolocation API dengan custom circular marker untuk melacak domisili mahasiswa langsung di Google Maps.",
+      },
+      {
+        title: "Komunikasi Satu Klik Tanpa Simpan Kontak",
+        desc: "Deep-linking WhatsApp Intent untuk menghubungkan dosen atau rekan mahasiswa secara instan.",
+      },
     ],
   },
 ];
