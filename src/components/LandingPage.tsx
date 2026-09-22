@@ -75,12 +75,12 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
 
   return (
     <div
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-x-hidden py-10 px-4 sm:px-6"
       style={{ background: 'var(--bg)' }}
     >
       {/* Dark mode ambient glow */}
       {isDark && (
-        <div className="pointer-events-none fixed inset-0 -z-10">
+        <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
           <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full opacity-40"
             style={{ background: 'radial-gradient(ellipse, rgba(16,185,129,0.12) 0%, transparent 70%)' }} />
           <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] rounded-full opacity-30"
@@ -92,7 +92,7 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
       <button
         onClick={toggleTheme}
         aria-label="Toggle theme"
-        className="fixed top-5 right-5 z-50 w-10 h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
+        className="fixed top-4 right-4 sm:top-5 sm:right-5 z-50 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
         style={{
           background: 'var(--bg-card)',
           border: '1px solid var(--border)',
@@ -103,12 +103,12 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
         {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
       </button>
 
-      {/* Main card — horizontal layout */}
+      {/* Main card — horizontal layout on desktop, stacked on mobile */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="w-full max-w-3xl"
+        className="w-full max-w-3xl my-auto"
       >
         <TiltCard>
           <div
@@ -123,8 +123,8 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
             }}
           >
             {/* Photo panel */}
-            <div className="relative w-full md:w-64 shrink-0 overflow-hidden" style={{ borderRadius: '20px 0 0 20px' }}>
-              <div className="w-full h-64 md:h-full min-h-[280px] overflow-hidden">
+            <div className="relative w-full md:w-64 shrink-0 overflow-hidden rounded-t-[20px] md:rounded-t-none md:rounded-l-[20px]">
+              <div className="w-full h-60 sm:h-72 md:h-full min-h-[220px] sm:min-h-[280px] overflow-hidden">
                 <motion.img
                   src="/profile.jpg"
                   alt="Faisal Triaputra"
@@ -153,20 +153,20 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
               variants={stagger}
               initial="hidden"
               animate="show"
-              className="flex flex-col justify-center flex-1 p-8 md:p-10 text-left"
+              className="flex flex-col justify-center flex-1 p-5 sm:p-8 md:p-10 text-left w-full"
             >
 
               {/* Name */}
               <motion.h1
                 variants={fadeUp}
-                className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-none mb-1"
+                className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-none mb-1"
                 style={{ color: 'var(--text-primary)' }}
               >
                 Faisal
               </motion.h1>
               <motion.h1
                 variants={fadeUp}
-                className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-none mb-5"
+                className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-none mb-4 sm:mb-5"
                 style={{ color: 'var(--text-primary)' }}
               >
                 Triaputra
@@ -176,20 +176,20 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
               {/* Bio */}
               <motion.p
                 variants={fadeUp}
-                className="text-sm leading-relaxed mb-7"
+                className="text-xs sm:text-sm leading-relaxed mb-6 sm:mb-7"
                 style={{ color: 'var(--text-muted)', maxWidth: '340px' }}
               >
                 Lulusan Teknik Informatika UMMI · Distinction Graduate Bangkit · IDCamp AI Engineer
               </motion.p>
 
               {/* Social icons */}
-              <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
+              <motion.div variants={fadeUp} className="flex items-center gap-3 mb-6 sm:mb-8">
                 <a
                   href="https://github.com/Faisalt28"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
-                  className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer group"
+                  className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer group"
                   style={{
                     background: 'var(--bg-subtle)',
                     border: '1px solid var(--border)',
@@ -204,7 +204,7 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="w-10 h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer group"
+                  className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer group"
                   style={{
                     background: 'var(--bg-subtle)',
                     border: '1px solid var(--border)',
@@ -222,7 +222,7 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={onEnter}
-                  className="inline-flex items-center gap-3 px-7 py-3.5 text-sm font-bold tracking-wide cursor-pointer transition-all duration-200 group"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-wide cursor-pointer transition-all duration-200 group"
                   style={{
                     background: isDark ? '#ffffff' : '#0d1117',
                     color: isDark ? '#0d1117' : '#ffffff',
@@ -246,8 +246,8 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-        className="absolute bottom-7 text-xs"
+        transition={{ delay: 0.6, duration: 0.6 }}
+        className="mt-6 md:mt-8 text-xs text-center"
         style={{ color: 'var(--text-muted)' }}
       >
         © {new Date().getFullYear()} Faisal Triaputra

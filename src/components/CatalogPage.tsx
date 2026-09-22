@@ -47,17 +47,17 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
           borderBottom: '1px solid var(--border)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 h-16 flex items-center justify-between">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer group"
+            className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium transition-colors cursor-pointer group"
             style={{ color: 'var(--text-secondary)' }}
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             <span className="group-hover:text-emerald-500 transition-colors">Kembali</span>
           </button>
 
-          <div className="flex items-center gap-2 font-bold text-base" style={{ color: 'var(--text-primary)' }}>
+          <div className="flex items-center gap-2 font-bold text-sm sm:text-base" style={{ color: 'var(--text-primary)' }}>
             <span className="text-emerald-500">FT</span>
             <span>Portofolio</span>
           </div>
@@ -65,7 +65,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
             style={{
               background: 'var(--bg-subtle)',
               border: '1px solid var(--border)',
@@ -78,25 +78,25 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
       </header>
 
       {/* Page header */}
-      <div className="max-w-7xl mx-auto px-5 pt-12 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 pt-8 sm:pt-12 pb-6 sm:pb-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-3">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-4">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+              <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-1 sm:mb-2" style={{ color: 'var(--text-primary)' }}>
                 Daftar Proyek
               </h1>
-              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs sm:text-sm" style={{ color: 'var(--text-muted)' }}>
                 {projectsList.length} proyek pilihan · {webCount} website · {androidCount} android
               </p>
             </div>
           </div>
 
           {/* Filter tabs */}
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             {([
               { key: 'all', label: 'Semua (Kolase)', icon: null },
               { key: 'web', label: `Website (${webCount})`, icon: <Globe className="w-3.5 h-3.5" /> },
@@ -105,7 +105,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
               <button
                 key={key}
                 onClick={() => setFilter(key)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer"
                 style={filter === key ? {
                   background: '#10b981',
                   color: '#fff',
@@ -125,12 +125,12 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
       </div>
 
       {/* Projects Display */}
-      <div className="max-w-7xl mx-auto px-5 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-5 pb-16">
         {filter === 'all' ? (
           /* ========================================================================= */
           /* KOLASE (BENTO MOSAIC): Membentuk Satu Persegi Panjang Besar yang Rapi      */
           /* ========================================================================= */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {/* 1. ArtoZ: Kolom Kiri, Membentang 2 Baris Tinggi (Android Portrait) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -203,7 +203,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
           /* ========================================================================= */
           /* GRID REGULER: Saat difilter (Website / Android) -> Balik Lagi Kayak Awal  */
           /* ========================================================================= */
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 items-start">
             {filtered.map((project, i) => (
               <motion.div
                 key={project.id}

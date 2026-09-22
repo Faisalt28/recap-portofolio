@@ -55,13 +55,13 @@ export default function ProjectCard({ project, onClick, variant = 'default' }: P
         </div>
 
         {/* Content */}
-        <div className="flex flex-col flex-1 p-5 sm:p-6 justify-between">
+        <div className="flex flex-col flex-1 p-4 sm:p-6 justify-between">
           <div>
             <span className="text-xs font-mono font-semibold text-emerald-500 uppercase tracking-wider block mb-1">
               Featured Web Platform
             </span>
             <h2
-              className="text-base sm:text-lg font-bold mb-2 leading-snug"
+              className="text-base sm:text-lg font-bold mb-2 leading-snug break-words"
               style={{ color: 'var(--text-primary)' }}
             >
               {project.title}
@@ -162,9 +162,9 @@ export default function ProjectCard({ project, onClick, variant = 'default' }: P
         </div>
 
         {/* Content */}
-        <div className="flex flex-col p-5 shrink-0">
+        <div className="flex flex-col p-4 sm:p-5 shrink-0">
           <h2
-            className="text-base font-bold mb-1.5 leading-snug"
+            className="text-base font-bold mb-1.5 leading-snug break-words"
             style={{ color: 'var(--text-primary)' }}
           >
             {project.title}
@@ -270,10 +270,10 @@ export default function ProjectCard({ project, onClick, variant = 'default' }: P
       </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-5 justify-between">
+      <div className="flex flex-col flex-1 p-4 sm:p-5 justify-between">
         <div>
           <h2
-            className="text-base font-bold mb-2 leading-snug"
+            className="text-base font-bold mb-2 leading-snug break-words"
             style={{ color: 'var(--text-primary)' }}
           >
             {project.title}
