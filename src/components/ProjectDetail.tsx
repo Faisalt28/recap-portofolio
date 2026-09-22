@@ -483,7 +483,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
                     Coba Langsung Fitur Interaktif
                   </h3>
                   <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Uji coba langsung navigasi, formulir pencatatan transaksi, budgeting, dan visualisasi grafik secara live di browser.
+                    {project.interactiveCalloutDesc || 'Uji coba langsung navigasi, formulir pencatatan transaksi, budgeting, dan visualisasi grafik secara live di browser.'}
                   </p>
                 </div>
                 <a

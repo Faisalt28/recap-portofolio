@@ -41,6 +41,7 @@ export interface ProjectItem {
   };
 
   // Tampilan & Demonstrasi (Showcase Feature)
+  interactiveCalloutDesc?: string;
   screenshots?: ProjectScreenshot[];
 
   // Fitur Kunci & Tantangan Teknis (Technical Highlights)
@@ -78,6 +79,8 @@ export const projectsList: ProjectItem[] = [
       "Cloudflare D1 Database",
     ],
     githubLink: "https://github.com/Faisalt28/react-financial-management",
+    interactiveCalloutDesc:
+      "Uji coba langsung formulir pencatatan transaksi, budgeting, dan visualisasi grafik secara live di browser.",
     overview:
       "Banyak orang malas mencatat keuangan karena dua hal:\n1. Aplikasi terasa lambat saat dibuka di kasir/toko.\n2. Repot menghitung manual saat memindahkan uang antar-rekening (misal: isi saldo Gopay dari Bank BCA, saldo sering tidak sinkron).\n\nAcheeZ dibuat agar proses pencatatan berlangsung instan dan saldo di semua rekening otomatis terhitung rapi tanpa perlu hitung ulang manual.\n\n*Catatan: Seluruh data rekening dan mutasi saldo diinput secara manual oleh pengguna (bukan sinkronisasi langsung dengan API perbankan).",
     problem:
@@ -186,6 +189,8 @@ export const projectsList: ProjectItem[] = [
       "SheetJS (xlsx)",
     ],
     githubLink: "https://github.com/Faisalt28/react-hospital-attendant",
+    interactiveCalloutDesc:
+      "Uji coba langsung presensi geofencing GPS, snapshot kamera selfie, alur tukar dinas, dan perpindahan peran (RBAC) secara live di browser.",
     overview:
       "Manajemen sumber daya manusia di rumah sakit memiliki kompleksitas tinggi dan risiko pelayanan pasien yang kritis karena:\n1. Risiko kecurangan presensi & titip absen: Sulit memastikan apakah staf medis benar-benar sudah berada di area instalasi gawat darurat (IGD) atau ruangan rawat inap saat jam pergantian sif.\n2. Kekacauan alur tukar dinas antar-nakes: Perawat dan dokter sering bertukar sif dinas secara mendadak. Jika koordinasi hanya lewat grup chat, kepala ruangan sering luput mencatat dan berisiko menimbulkan kekosongan tenaga medis di unit kritis.\n3. Pencatatan manual yang lambat: Rekap kehadiran dan jatah cuti tahunan sering tercecer sehingga proses pembuatan laporan bulanan oleh HRD memakan waktu lama.\n\nRS MediTrack dibuat untuk memastikan setiap tenaga medis hadir tepat waktu di titik lokasi rumah sakit yang valid, dengan jadwal dinas yang transparan dan alur pertukaran sif yang tercatat resmi.",
     problem:
@@ -277,7 +282,7 @@ export const projectsList: ProjectItem[] = [
     title: "Frameify — Galeri Foto & Visual Discovery",
     shortTitle: "Frameify",
     description:
-      "Platform eksplorasi visual berbasis Unsplash API untuk menemukan, mencari, mengunduh, dan membagikan foto berkualitas tinggi dari seluruh dunia. Dirancang dengan antarmuka galeri yang imersif dan modern.",
+      "Platform eksplorasi visual berbasis Unsplash API untuk menemukan, mencari, mengunduh, dan membagikan foto berkualitas tinggi dari seluruh dunia. Dirancang dengan antarmuka galeri masonry yang modern.",
     imgSrc: "/projects/frameify.png",
     videoSrc: "/projects/frameify-demo.mp4",
     link: "https://frameify.pages.dev/",
@@ -287,65 +292,81 @@ export const projectsList: ProjectItem[] = [
     date: "November 2024",
     role: "Frontend Developer",
     techStack: [
-      "React",
+      "React 19",
+      "Vite",
       "TypeScript",
       "Tailwind CSS",
-      "Unsplash API",
-      "Masonry Grid Engine",
+      "Framer Motion",
+      "Radix UI Aspect Ratio",
+      "Lucide Icons",
+      "Unsplash REST API",
+      "Axios",
       "Cloudflare Pages",
     ],
     githubLink: "https://github.com/Faisalt28/Frameify",
+    interactiveCalloutDesc:
+      "Uji coba langsung pencarian foto real-time dengan filter kategori dan inspeksi detail dengan Interactive Magnifier Lens.",
     overview:
-      "Frameify dibangun sebagai platform eksplorasi foto yang menghubungkan pengguna dengan jutaan karya fotografi profesional melalui integrasi Unsplash API. Fokus utama adalah pengalaman visual yang mulus, mulai dari pencarian berbasis kata kunci, tampilan grid dinamis, hingga kemudahan mengunduh dan membagikan foto langsung dari antarmuka yang bersih dan responsif.",
+      "Frameify dibangun untuk menghadirkan pengalaman visual fotografi profesional melalui integrasi Unsplash API tanpa hambatan performa. Fokus utamanya adalah menghadirkan interaksi visual imersif seperti 3D perspective corridor dan interactive magnifier lens.",
     problem:
-      "Banyak antarmuka galeri foto web terasa lambat, tata letak gambar yang terpotong secara kaku (fixed aspect ratio) merusak proporsi karya fotografer asli, dan proses pengunduhan sering kali diarahkan ke halaman pihak ketiga yang membingungkan.",
+      "Foto dengan rasio dimensi acak yang dimuat secara asinkron memicu lonjakan layout (CLS tinggi), serta pembatasan ketat rate limit API Unsplash Demo (50 request/jam) berisiko membuat aplikasi error saat pencarian real-time.",
     solution:
-      "Frameify menerapkan arsitektur Masonry Grid adaptif yang merespons rasio aspek asli foto, integrasi langsung Unsplash REST API dengan caching pintar, serta unduh resolusi penuh satu klik tanpa redirect.",
+      "Frameify menerapkan alokasi rasio aspek deterministik dengan Radix UI Aspect Ratio + skeleton shimmer, custom useDebounce hook (jeda 350ms), dan arsitektur Resilient Curated Fallback Pool lokal untuk pengalaman visual tanpa hambatan.",
     techArchitecture: {
-      frontendOrMobile: "React, TypeScript, Tailwind CSS, Custom Masonry Engine",
-      backendOrDatabase: "Unsplash REST API (JSON Endpoints), Client-side Image Cache",
-      architectureOrPattern: "Dynamic Masonry Layout, Debounced Keyword Search, Headless Image Loader",
+      frontendOrMobile: "React 19, Vite, TypeScript & JavaScript (ES Modules), Tailwind CSS, Framer Motion, Radix UI Aspect Ratio, Lucide Icons",
+      backendOrDatabase: "Unsplash REST API (Client-ID Access Key Auth via HTTP Header), Axios, Cloudflare Pages (Global CDN Edge Network)",
+      architectureOrPattern: "Custom Debounced Search Hook, Sentinel Infinite Scroll (IntersectionObserver), Resilient Fallback Pool",
     },
     challenges: [
       {
-        title: "Optimasi Render Masonry Grid Tanpa Layout Shift",
+        title: "Eliminasi Cumulative Layout Shift (CLS) pada Dynamic Masonry Grid",
         problem:
-          "Foto dengan berbagai rasio dimensi yang dimuat secara asinkron sering memicu Cumulative Layout Shift (CLS) dan scrolling tersendat.",
+          "Foto dengan rasio dimensi acak (landscape, portrait, square) yang dimuat secara asinkron memicu lonjakan layout (CLS tinggi) dan patah-patah saat scrolling.",
         solution:
-          "Menghitung rasio aspek dimensi awal dari payload JSON metadata Unsplash dan merender skeleton placeholder dengan dimensi presisi sebelum gambar terunduh.",
+          "Menghitung rasio aspek deterministik langsung dari metadata dimensi asli (width / height) yang dibungkus dengan komponen @radix-ui/react-aspect-ratio serta placeholder skeleton shimmer. Elemen ruang gambar sudah teralokasi presisi sebelum binary gambar selesai diunduh.",
       },
       {
-        title: "Debounced Search & Rate Limiting Unsplash API",
+        title: "API Rate Limit Handling & Debounced Search Optimization",
         problem:
-          "Input pencarian real-time berisiko menghabiskan kuota request rate limit API secara cepat.",
+          "Input pencarian huruf-demi-huruf serta batas ketat rate limit Unsplash Demo (50 request/jam) berisiko membuat aplikasi error atau menampilkan layar kosong.",
         solution:
-          "Menerapkan custom debounce hook (400ms delay) dan in-memory response cache untuk kata kunci pencarian yang sering diakses.",
+          "Mengimplementasikan custom useDebounce hook (jeda 350ms) untuk menunda panggilan API saat mengetik, dipadukan dengan arsitektur Resilient Curated Pool lokal di usePhotos.js yang otomatis mengambil alih data jika kuota API habis atau koneksi offline.",
       },
     ],
     features: [
       {
-        title: "Pencarian Foto Cerdas",
-        desc: "Temukan foto berdasarkan kata kunci, kategori, atau mood — didukung Unsplash API dengan hasil relevan dan resolusi tinggi.",
+        title: "Pencarian Cerdas & Filter Kategori",
+        desc: "Pencarian berbasis kata kunci serta filter kategori terpadu (Landscape, Panorama, Digital Art, Misty Forest, Aurora, dll.).",
       },
       {
-        title: "Galeri Grid Dinamis",
-        desc: "Tata letak foto mengalir secara dinamis mengikuti rasio aspek asli setiap gambar, menghadirkan tampilan yang rapi tanpa ruang kosong.",
+        title: "Responsive Masonry Gallery dengan Infinite Scroll",
+        desc: "Penyusunan multi-kolom adaptif (2 kolom di mobile hingga 6 kolom di layar ultra-wide) dengan pemuatan otomatis berbasis IntersectionObserver.",
       },
       {
-        title: "Unduh Foto Langsung",
-        desc: "Download foto dalam resolusi penuh langsung dari platform tanpa redirect, siap digunakan untuk kebutuhan kreatif apapun.",
+        title: "Modal Detail dengan Interactive Magnifier Lens",
+        desc: "Pratinjau foto resolusi tinggi yang dilengkapi lensa pembesar interaktif (zoom factor 2.4x) untuk memeriksa ketajaman dan detail foto.",
       },
       {
-        title: "Berbagi ke Media Sosial",
-        desc: "Bagikan foto favorit ke platform lain dengan tautan langsung atau salin URL yang dapat langsung digunakan.",
+        title: "Direct Download & Web Share Integration",
+        desc: "Pengunduhan foto langsung via konversi Blob tanpa redirect pihak ketiga, serta integrasi Web Share API dengan fallback penyalinan otomatis ke clipboard.",
       },
     ],
     architecture: [
-      { label: "Frontend Framework", value: "React + TypeScript" },
-      { label: "Data Source", value: "Unsplash REST API (OAuth 2.0)" },
-      { label: "Layout Engine", value: "Masonry Grid (Dynamic Aspect Ratio)" },
-      { label: "Styling", value: "Tailwind CSS + Custom Transitions" },
-      { label: "Deployment", value: "Cloudflare Pages (Global CDN)" },
+      { label: "Frontend Core", value: "React 19, Vite, TypeScript & JavaScript (ES Modules)" },
+      { label: "Styling & Motion", value: "Tailwind CSS, Framer Motion, Radix UI Aspect Ratio, Lucide Icons" },
+      { label: "Data Fetching & API", value: "Unsplash REST API (Client-ID Auth Header), Axios" },
+      { label: "State & Logic Pattern", value: "Custom Debounced Search Hook, Sentinel Infinite Scroll, Resilient Fallback Pool" },
+      { label: "Deployment & CDN", value: "Cloudflare Pages (Global CDN Edge Network)" },
+    ],
+    highlights: [
+      {
+        title: "Zero CLS via Deterministic Aspect Ratio",
+        desc: "Alokasi presisi rasio aspek sebelum gambar terunduh dengan Radix UI Aspect Ratio dan skeleton shimmer.",
+      },
+      {
+        title: "Resilient Curated Pool & useDebounce",
+        desc: "Penundaan debounce 350ms dan pengambilalihan otomatis ke curated pool lokal saat kuota 50 req/jam habis.",
+      },
     ],
   },
 
