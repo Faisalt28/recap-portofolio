@@ -338,7 +338,7 @@ export const projectsList: ProjectItem[] = [
     shortTitle: "ArtoZ",
     description:
       "Aplikasi Android untuk manajemen keuangan mahasiswa sehari-hari. Mencatat pemasukan dan pengeluaran dengan kategori yang relevan untuk mahasiswa, dilengkapi visualisasi bar chart dan pie chart untuk memantau kondisi finansial secara menyeluruh.",
-    imgSrc: "/projects/artoz-dashboard.png",
+    imgSrc: "/projects/artoz-splash.png",
     videoSrc: "/projects/artoz-demo.mp4",
     link: "https://github.com/Faisalt28/Mobile-Artoz-Offline",
     linkText: "Repository GitHub",
