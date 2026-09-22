@@ -35,10 +35,12 @@ interface ProjectDetailProps {
 
 export default function ProjectDetail({ project, theme, toggleTheme, onBack }: ProjectDetailProps) {
   const isDark = theme === 'dark'
-  const isWeb = project.category === 'web' || project.category === 'ml'
-  const accentColor = isWeb ? '#10b981' : '#a78bfa'
-  const accentBg = isWeb ? 'rgba(16,185,129,0.1)' : 'rgba(139,92,246,0.1)'
-  const accentBorder = isWeb ? 'rgba(16,185,129,0.25)' : 'rgba(139,92,246,0.25)'
+  const isML = project.category === 'ml'
+  const isAndroid = project.category === 'android'
+  const isBrowserShowcase = !isAndroid
+  const accentColor = isAndroid ? '#a78bfa' : '#10b981'
+  const accentBg = isAndroid ? 'rgba(139,92,246,0.1)' : 'rgba(16,185,129,0.1)'
+  const accentBorder = isAndroid ? 'rgba(139,92,246,0.25)' : 'rgba(16,185,129,0.25)'
 
   const scrollToDemo = () => {
     const demoEl = document.getElementById('demo-showcase-section')
@@ -116,7 +118,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
 
             {/* Direct Links */}
             <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3.5">
-              {isWeb ? (
+              {isBrowserShowcase ? (
                 <>
                   {/* [Live Website] (untuk Web) */}
                   <a
@@ -247,7 +249,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
 
             {/* 3 Main IT Categories Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-5 mb-4 sm:mb-6">
-              {/* Frontend / Mobile */}
+              {/* Card 1: Frontend (or Mobile Application for Android) */}
               <div
                 className="p-4 sm:p-6 rounded-2xl flex flex-col justify-between"
                 style={{
@@ -261,10 +263,10 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
                     className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center mb-3 sm:mb-4"
                     style={{ background: accentBg, color: accentColor, border: `1px solid ${accentBorder}` }}
                   >
-                    {isWeb ? <Monitor className="w-4 h-4 sm:w-5 sm:h-5" /> : <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />}
+                    {isAndroid ? <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" /> : <Monitor className="w-4 h-4 sm:w-5 sm:h-5" />}
                   </div>
                   <h3 className="text-xs font-mono uppercase tracking-wider mb-1.5 sm:mb-2" style={{ color: 'var(--text-muted)' }}>
-                    Frontend / Mobile
+                    {isAndroid ? 'Mobile Application' : 'Frontend'}
                   </h3>
                   <p className="text-xs sm:text-sm font-semibold leading-relaxed break-words" style={{ color: 'var(--text-primary)' }}>
                     {project.techArchitecture?.frontendOrMobile || project.techStack.slice(0, 4).join(', ')}
@@ -272,7 +274,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
                 </div>
               </div>
 
-              {/* Backend / Database */}
+              {/* Card 2: Machine Learning & Data (for ML) or Backend / Database (for Web & Android) */}
               <div
                 className="p-4 sm:p-6 rounded-2xl flex flex-col justify-between"
                 style={{
@@ -286,10 +288,10 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
                     className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center mb-3 sm:mb-4"
                     style={{ background: accentBg, color: accentColor, border: `1px solid ${accentBorder}` }}
                   >
-                    <Database className="w-4 h-4 sm:w-5 sm:h-5" />
+                    {isML ? <Cpu className="w-4 h-4 sm:w-5 sm:h-5" /> : <Database className="w-4 h-4 sm:w-5 sm:h-5" />}
                   </div>
                   <h3 className="text-xs font-mono uppercase tracking-wider mb-1.5 sm:mb-2" style={{ color: 'var(--text-muted)' }}>
-                    Backend / Database
+                    {isML ? 'Machine Learning & Data' : 'Backend / Database'}
                   </h3>
                   <p className="text-xs sm:text-sm font-semibold leading-relaxed break-words" style={{ color: 'var(--text-primary)' }}>
                     {project.techArchitecture?.backendOrDatabase || 'Serverless SQLite / REST API'}
@@ -297,7 +299,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
                 </div>
               </div>
 
-              {/* Arsitektur / Pattern */}
+              {/* Card 3: Algoritma & Deployment (for ML) or Arsitektur / Pattern */}
               <div
                 className="p-4 sm:p-6 rounded-2xl flex flex-col justify-between"
                 style={{
@@ -314,7 +316,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
                     <GitMerge className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <h3 className="text-xs font-mono uppercase tracking-wider mb-1.5 sm:mb-2" style={{ color: 'var(--text-muted)' }}>
-                    Arsitektur / Pattern
+                    {isML ? 'Algoritma & Deployment' : 'Arsitektur / Pattern'}
                   </h3>
                   <p className="text-xs sm:text-sm font-semibold leading-relaxed break-words" style={{ color: 'var(--text-primary)' }}>
                     {project.techArchitecture?.architectureOrPattern || 'Clean Architecture, RESTful API, Component Driven'}
@@ -373,7 +375,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
             </h2>
 
             {/* A. EMBEDDED DEMO PLAYER */}
-            {isWeb ? (
+            {isBrowserShowcase ? (
               /* Web Browser Window Frame */
               <div
                 className="mb-8 rounded-2xl overflow-hidden"
@@ -471,8 +473,8 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
               </div>
             )}
 
-            {/* B. INTERACTIVE LINK CALLOUT (UNTUK WEB) */}
-            {isWeb && (
+            {/* B. INTERACTIVE LINK CALLOUT (UNTUK WEB & ML) */}
+            {isBrowserShowcase && (
               <div
                 className="p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8"
                 style={{
@@ -504,7 +506,7 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
             )}
 
             {/* C. MOCKUP SCREEN GRID (UNTUK ANDROID) */}
-            {!isWeb && project.screenshots && project.screenshots.length > 0 && (
+            {isAndroid && project.screenshots && project.screenshots.length > 0 && (
               <div>
                 <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                   <Layers className="w-4 h-4" style={{ color: accentColor }} />
