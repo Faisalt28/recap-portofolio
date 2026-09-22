@@ -574,6 +574,104 @@ export const projectsList: ProjectItem[] = [
       },
     ],
   },
+  // Proyek 6: Sistem Rekomendasi Film (Machine Learning)
+  {
+    id: "rekomendasi-film",
+    title: "Sistem Rekomendasi Film — Content-Based Filtering",
+    shortTitle: "Rekomendasi Film",
+    description:
+      "Aplikasi sistem rekomendasi film cerdas berbasis Machine Learning (Content-Based Filtering) dengan dataset Kaggle. Menganalisis kemiripan fitur sinopsis dan genre untuk menyajikan rekomendasi film yang relevan dan interaktif.",
+    imgSrc: "/projects/rekomendasi-film.png",
+    link: "https://huggingface.co/spaces/Axion28/Sistem-Rekomendasi-Film",
+    linkText: "Live Hugging Face Spaces",
+    category: "web",
+    badge: "Machine Learning",
+    date: "2024",
+    role: "Machine Learning Developer",
+    techStack: [
+      "Python",
+      "Gradio",
+      "Scikit-learn",
+      "Pandas",
+      "Cosine Similarity",
+      "TF-IDF Vectorizer",
+      "Kaggle Dataset",
+      "Hugging Face Spaces",
+    ],
+    githubLink: "https://github.com/Faisalt28/Rekomendasi-Film",
+    interactiveCalloutDesc:
+      "Coba langsung filter genre, pilih judul film favorit, dan dapatkan rekomendasi film serupa secara live di Hugging Face Spaces.",
+    overview:
+      "Sistem Rekomendasi Film ini dibangun untuk membantu pengguna menemukan tontonan baru yang sesuai dengan selera mereka tanpa harus mencari secara manual dari ribuan judul. Dengan memanfaatkan dataset film komprehensif dari Kaggle, sistem menganalisis karakteristik metadata film (sinopsis cerita, genre, dan rating) menggunakan pendekatan Machine Learning Content-Based Filtering (CBF).\n\nAplikasi dideploy secara interaktif di Hugging Face Spaces menggunakan antarmuka Gradio yang responsif dan mudah digunakan.",
+    problem:
+      "Pengguna sering mengalami kebingungan (decision fatigue) saat memilih film karena banyaknya pilihan tanpa adanya panduan rekomendasi yang relevan berdasarkan kesamaan konten cerita dan preferensi genre.",
+    solution:
+      "Mengimplementasikan model Content-Based Filtering dengan representasi teks TF-IDF dan kalkulasi Cosine Similarity untuk mengukur kedekatan antar-film, disajikan dalam web app Gradio yang memungkinkan eksplorasi genre dan rekomendasi instan.",
+    techArchitecture: {
+      frontendOrMobile: "Gradio Web Interface (Interactive UI dengan Multi-Genre Checkbox, Dynamic Dropdown & Card Status)",
+      backendOrDatabase: "Python, Pandas DataFrames (Kaggle Film Dataset), Scikit-learn Feature Extraction",
+      architectureOrPattern: "Content-Based Filtering (CBF), TF-IDF Vectorization, Cosine Similarity Matrix, Hugging Face Spaces Deployment",
+    },
+    challenges: [
+      {
+        title: "Ekstraksi Fitur Teks & Perhitungan Cosine Similarity",
+        problem:
+          "Mencari kemiripan antar-film berdasarkan sinopsis dan genre dari ribuan baris dataset membutuhkan kalkulasi kesamaan konten yang akurat dan efisien.",
+        solution:
+          "Memanfaatkan TfidfVectorizer dari scikit-learn untuk mentransformasi teks sinopsis dan genre ke dalam representasi vektor bobot TF-IDF, kemudian menghitung matriks Cosine Similarity untuk menentukan derajat kedekatan sudut antar-vektor film.",
+      },
+      {
+        title: "Filter Dinamis Berbasis Genre & Rating Top 10",
+        problem:
+          "Pengguna membutuhkan fleksibilitas memilih banyak genre sekaligus (multi-select) serta melihat film dengan rating tertinggi sebelum memilih judul spesifik.",
+        solution:
+          "Membangun logika filter berlapis menggunakan Pandas: sistem memfilter subset data sesuai genre yang dicentang, mengurutkan Top 10 berdasarkan rating IMDb, dan secara dinamis memperbarui pilihan dropdown serta detail film secara real-time di Gradio.",
+      },
+      {
+        title: "Deployment Serverless AI di Hugging Face Spaces",
+        problem:
+          "Menyediakan akses publik untuk model machine learning dan dataset tanpa kompleksitas pengelolaan server fisik mandiri.",
+        solution:
+          "Mendeploy aplikasi secara terisolasi di container cloud Hugging Face Spaces dengan runtime Python dan Gradio, memastikan aplikasi selalu aktif (Running) dan dapat diakses publik dengan waktu muat yang cepat.",
+      },
+    ],
+    features: [
+      {
+        title: "Multi-Genre Selection",
+        desc: "Pilihan filter genre lengkap (Action, Adventure, Sci-Fi, Drama, Comedy, Horror, dll.) untuk mempersempit katalog film sesuai preferensi.",
+      },
+      {
+        title: "Top 10 Film Berdasarkan Rating",
+        desc: "Menampilkan daftar 10 film terbaik dengan skor rating tertinggi dari genre yang dipilih sebagai referensi cepat.",
+      },
+      {
+        title: "Rekomendasi Film Serupa (CBF)",
+        desc: "Menghasilkan rekomendasi film yang memiliki kemiripan alur cerita dan genre tertinggi menggunakan algoritma Content-Based Filtering.",
+      },
+      {
+        title: "Detail & Sinopsis Lengkap",
+        desc: "Informasi mendalam mencakup tahun rilis, rating bintang, dan ringkasan sinopsis cerita film yang dipilih.",
+      },
+    ],
+    architecture: [
+      { label: "Framework UI", value: "Gradio (Python Interactive Web UI)" },
+      { label: "Bahasa Pemrograman", value: "Python 3.x" },
+      { label: "Algoritma Rekomendasi", value: "Content-Based Filtering (Cosine Similarity)" },
+      { label: "Machine Learning Library", value: "Scikit-learn (TfidfVectorizer, Metric Similarity)" },
+      { label: "Pengolahan Data", value: "Pandas & NumPy (Kaggle Dataset)" },
+      { label: "Platform Hosting", value: "Hugging Face Spaces (Cloud AI Container)" },
+    ],
+    highlights: [
+      {
+        title: "Content-Based Machine Learning",
+        desc: "Menganalisis kemiripan semantik sinopsis dan genre menggunakan representasi vektor TF-IDF dan Cosine Similarity.",
+      },
+      {
+        title: "Cloud Deployment di Hugging Face",
+        desc: "Berjalan stabil di infrastruktur Hugging Face Spaces dengan antarmuka web interaktif berbasis Gradio.",
+      },
+    ],
+  },
 ];
 
 export function getProjectById(id: string): ProjectItem | undefined {

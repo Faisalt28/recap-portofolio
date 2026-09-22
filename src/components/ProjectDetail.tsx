@@ -129,8 +129,12 @@ export default function ProjectDetail({ project, theme, toggleTheme, onBack }: P
                       boxShadow: '0 6px 20px rgba(16,185,129,0.35)',
                     }}
                   >
-                    <Globe className="w-4 h-4" />
-                    <span>Live Website</span>
+                    {project.badge === 'Machine Learning' ? (
+                      <Sparkles className="w-4 h-4" />
+                    ) : (
+                      <Globe className="w-4 h-4" />
+                    )}
+                    <span>{project.linkText || 'Live Website'}</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
 

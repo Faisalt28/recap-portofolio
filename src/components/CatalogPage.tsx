@@ -28,6 +28,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
   const meditrack = projectsList.find(p => p.id === 'rs-meditrack') || projectsList[1]
   const frameify = projectsList.find(p => p.id === 'frameify') || projectsList[2]
   const findThem = projectsList.find(p => p.id === 'findthem') || projectsList[4]
+  const filmRec = projectsList.find(p => p.id === 'rekomendasi-film') || projectsList[5]
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
@@ -90,7 +91,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
                 Daftar Proyek
               </h1>
               <p className="text-xs sm:text-sm" style={{ color: 'var(--text-muted)' }}>
-                {projectsList.length} proyek pilihan · {webCount} website · {androidCount} android
+                {projectsList.length} proyek pilihan · {webCount} website & AI · {androidCount} android
               </p>
             </div>
           </div>
@@ -99,7 +100,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
           <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             {([
               { key: 'all', label: 'Semua (Kolase)', icon: null },
-              { key: 'web', label: `Website (${webCount})`, icon: <Globe className="w-3.5 h-3.5" /> },
+              { key: 'web', label: `Website & AI (${webCount})`, icon: <Globe className="w-3.5 h-3.5" /> },
               { key: 'android', label: `Android (${androidCount})`, icon: <Smartphone className="w-3.5 h-3.5" /> },
             ] as const).map(({ key, label, icon }) => (
               <button
@@ -198,6 +199,22 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
                 variant="collage-tall"
               />
             </motion.div>
+
+            {/* 6. Rekomendasi Film: Baris Bawah, Membentang 4 Kolom Penuh (Featured ML Banner) */}
+            {filmRec && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.32 }}
+                className="md:order-4 md:col-span-2 lg:order-none lg:col-span-4 h-full"
+              >
+                <ProjectCard
+                  project={filmRec}
+                  onClick={() => onSelectProject(filmRec)}
+                  variant="collage-banner"
+                />
+              </motion.div>
+            )}
           </div>
         ) : (
           /* ========================================================================= */

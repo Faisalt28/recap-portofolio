@@ -1,10 +1,10 @@
-import { Globe, Smartphone, ArrowRight } from 'lucide-react'
+import { Globe, Smartphone, ArrowRight, Sparkles } from 'lucide-react'
 import type { ProjectItem } from '../data/projects'
 
 interface ProjectCardProps {
   project: ProjectItem
   onClick: () => void
-  variant?: 'default' | 'collage-hero' | 'collage-tall'
+  variant?: 'default' | 'collage-hero' | 'collage-tall' | 'collage-banner'
 }
 
 export default function ProjectCard({ project, onClick, variant = 'default' }: ProjectCardProps) {
@@ -218,6 +218,113 @@ export default function ProjectCard({ project, onClick, variant = 'default' }: P
     )
   }
 
+  // Variant: Collage Banner (Wide horizontal card for Rekomendasi Film across 4 columns)
+  if (variant === 'collage-banner') {
+    return (
+      <div
+        onClick={onClick}
+        className="group relative flex flex-col md:flex-row h-full rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1"
+        style={{
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border)',
+          boxShadow: 'var(--shadow)',
+        }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLDivElement).style.boxShadow = 'var(--shadow-lg)'
+          ;(e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(16,185,129,0.4)'
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLDivElement).style.boxShadow = 'var(--shadow)'
+          ;(e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)'
+        }}
+      >
+        {/* Thumbnail: responsive width on desktop, 16:9 on mobile */}
+        <div className="relative w-full md:w-[45%] lg:w-[42%] aspect-video md:aspect-auto overflow-hidden bg-neutral-900 shrink-0 min-h-[220px] sm:min-h-[260px]">
+          <img
+            src={project.imgSrc}
+            alt={project.title}
+            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+          {/* Badge overlay */}
+          <span
+            className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+            style={{
+              background: 'rgba(16,185,129,0.15)',
+              color: '#10b981',
+              border: '1px solid rgba(16,185,129,0.35)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <Sparkles className="w-3 h-3" />
+            {project.badge}
+          </span>
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col flex-1 p-5 sm:p-6 lg:p-7 justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span className="text-xs font-mono font-semibold text-emerald-500 uppercase tracking-wider">
+                Featured Machine Learning
+              </span>
+              <span
+                className="text-[11px] font-mono px-2 py-0.5 rounded-full"
+                style={{ background: 'var(--bg-subtle)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
+              >
+                Hugging Face Spaces
+              </span>
+            </div>
+            <h2
+              className="text-base sm:text-xl font-bold mb-2.5 leading-snug break-words"
+              style={{ color: 'var(--text-primary)' }}
+            >
+              {project.title}
+            </h2>
+            <p
+              className="text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3 sm:line-clamp-2"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              {project.description}
+            </p>
+          </div>
+
+          <div>
+            {/* Tech pills */}
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {project.techStack.map(tech => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-0.5 rounded-md text-xs font-mono"
+                  style={{
+                    background: 'var(--bg-subtle)',
+                    color: 'var(--text-muted)',
+                    border: '1px solid var(--border)',
+                  }}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <button
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer group/btn"
+              style={{
+                background: 'rgba(16,185,129,0.1)',
+                color: '#10b981',
+                border: '1px solid rgba(16,185,129,0.25)',
+              }}
+            >
+              <span>Lihat Detail</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   // Variant: Default (Standard grid for filter & regular items)
   return (
     <div
@@ -264,7 +371,13 @@ export default function ProjectCard({ project, onClick, variant = 'default' }: P
             backdropFilter: 'blur(8px)',
           }}
         >
-          {isOnline ? <Globe className="w-3 h-3" /> : <Smartphone className="w-3 h-3" />}
+          {project.badge === 'Machine Learning' ? (
+            <Sparkles className="w-3 h-3" />
+          ) : isOnline ? (
+            <Globe className="w-3 h-3" />
+          ) : (
+            <Smartphone className="w-3 h-3" />
+          )}
           {project.badge}
         </span>
       </div>
