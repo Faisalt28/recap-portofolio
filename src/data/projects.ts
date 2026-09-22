@@ -405,7 +405,7 @@ export const projectsList: ProjectItem[] = [
     techArchitecture: {
       frontendOrMobile: "Kotlin, XML Layouts, ViewBinding, Android WebView",
       backendOrDatabase: "Room Database (SQLite Offline-First), Android DataStore",
-      architectureOrPattern: "MVVM (Model-View-ViewModel), Repository Pattern, Kotlin Coroutines, LiveData",
+      architectureOrPattern: "MVVM (Model-View-ViewModel), Kotlin Coroutines, LiveData",
     },
     screenshots: [
       {
@@ -430,7 +430,7 @@ export const projectsList: ProjectItem[] = [
         problem:
           "Aplikasi harus dapat digunakan secara instan di mana pun tanpa menunggu koneksi internet atau buffering data.",
         solution:
-          "Mengimplementasikan Room Database (SQLite ORM) dengan Entity, DAO, dan Repository Pattern. Semua operasi baca-tulis dijalankan asinkron melalui Kotlin Coroutines di background thread (Dispatchers.IO) agar UI thread tetap mulus 60 FPS.",
+          "Mengimplementasikan Room Database (SQLite ORM) dengan Entity dan DAO. Semua operasi baca-tulis dijalankan asinkron melalui Kotlin Coroutines agar UI thread tetap mulus 60 FPS.",
       },
       {
         title: "Injeksi Grafik Interaktif via Android WebView & Chart.js",
@@ -455,7 +455,7 @@ export const projectsList: ProjectItem[] = [
       },
       {
         title: "Pie Chart Distribusi Pengeluaran",
-        desc: "Diagram lingkaran interaktif dengan legend dinamis untuk memantau pos belanja yang paling banyak menghabiskan anggaran bulanan.",
+        desc: "Diagram lingkaran interaktif dengan legend dinamis untuk memantau pos belanja mana yang paling banyak menghabiskan anggaran bulanan.",
       },
       {
         title: "Filter & Riwayat Transaksi Fleksibel",
@@ -465,7 +465,7 @@ export const projectsList: ProjectItem[] = [
     architecture: [
       { label: "Platform Mobile", value: "Android Native (Kotlin)" },
       { label: "Database Lokal", value: "Room Database (SQLite Offline-First)" },
-      { label: "Pola Arsitektur", value: "MVVM (Model-View-ViewModel) + Repository Pattern" },
+      { label: "Pola Arsitektur", value: "MVVM (Model-View-ViewModel)" },
       { label: "Visualisasi Grafik", value: "Android WebView + Chart.js (HTML5 Canvas)" },
       { label: "Komponen UI", value: "Material 3, ViewBinding, RecyclerView" },
       { label: "Asynchronous Engine", value: "Kotlin Coroutines & LiveData" },
