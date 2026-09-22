@@ -226,7 +226,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
         className="text-center py-8 text-xs border-t"
         style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
       >
-        © {new Date().getFullYear()} Faisal Triaputra · Built with React + Vite
+        © {new Date().getFullYear()} Faisal Triaputra
       </div>
     </div>
   )
