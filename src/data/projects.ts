@@ -540,15 +540,11 @@ export const projectsList: ProjectItem[] = [
     features: [
       {
         title: "Pendataan Mahasiswa & Biodata Lengkap",
-        desc: "Pencatatan nama, NIM, jurusan, nomor WhatsApp, dan alamat domisili dengan antarmuka yang bersih.",
+        desc: "Pencatatan nama, NIM, jurusan, nomor WhatsApp, dan alamat domisili dengan toggle \"Masukkan ke Peta\".",
       },
       {
         title: "Integrasi Geolocation API & Google Maps",
-        desc: "Visualisasi titik sebaran tempat tinggal mahasiswa secara real-time pada peta interaktif.",
-      },
-      {
-        title: "Custom Avatar Marker pada Peta",
-        desc: "Setiap titik lokasi mahasiswa ditandai dengan pin foto profil agar mudah dikenali secara visual.",
+        desc: "Visualisasi titik sebaran tempat tinggal mahasiswa secara real-time pada peta dengan custom pin foto profil agar mudah dikenali.",
       },
       {
         title: "Direct WhatsApp Communication",
