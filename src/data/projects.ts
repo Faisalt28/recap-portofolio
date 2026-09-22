@@ -389,7 +389,7 @@ export const projectsList: ProjectItem[] = [
       "Android Studio",
       "Kotlin",
       "Room Database (SQLite)",
-      "MPAndroidChart",
+      "WebView (Chart.js)",
       "MVVM Architecture",
       "RecyclerView",
       "Coroutines",
@@ -401,9 +401,9 @@ export const projectsList: ProjectItem[] = [
     problem:
       "Mahasiswa sering mengalami defisit keuangan di akhir bulan karena tidak mencatat pengeluaran kecil harian. Sebagian besar aplikasi finansial di Play Store membutuhkan kuota internet, memiliki fitur perbankan yang terlalu rumit, dan tidak menyediakan kategori yang relevan dengan kebutuhan khas perkuliahan.",
     solution:
-      "ArtoZ menyediakan aplikasi Android native yang 100% offline-first dengan database lokal Room SQLite. Mahasiswa dapat mencatat transaksi secepat kilat, melihat rekapitulasi pos pengeluaran dalam pie chart, dan membandingkan cash flow bulanan lewat bar chart interaktif.",
+      "ArtoZ menyediakan aplikasi Android native yang 100% offline-first dengan database lokal Room SQLite. Mahasiswa dapat mencatat transaksi secepat kilat, melihat rekapitulasi pos pengeluaran dalam pie chart, dan membandingkan cash flow bulanan lewat visualisasi grafik interaktif WebView.",
     techArchitecture: {
-      frontendOrMobile: "Kotlin, XML Layouts, ViewBinding",
+      frontendOrMobile: "Kotlin, XML Layouts, ViewBinding, Android WebView",
       backendOrDatabase: "Room Database (SQLite Offline-First), Android DataStore",
       architectureOrPattern: "MVVM (Model-View-ViewModel), Repository Pattern, Kotlin Coroutines, LiveData",
     },
@@ -433,11 +433,11 @@ export const projectsList: ProjectItem[] = [
           "Mengimplementasikan Room Database (SQLite ORM) dengan Entity, DAO, dan Repository Pattern. Semua operasi baca-tulis dijalankan asinkron melalui Kotlin Coroutines di background thread (Dispatchers.IO) agar UI thread tetap mulus 60 FPS.",
       },
       {
-        title: "Agregasi Data Bulanan untuk MPAndroidChart yang Responsif",
+        title: "Injeksi Grafik Interaktif via Android WebView & Chart.js",
         problem:
-          "Melakukan kalkulasi jumlah pengeluaran per kategori untuk grafik Pie Chart dan Bar Chart berpotensi memperlambat performa saat riwayat transaksi sudah mencapai ratusan baris.",
+          "Menampilkan grafik yang interaktif dan ringan di Android native tanpa membebani ukuran aplikasi dengan library chart yang kaku.",
         solution:
-          "Menulis query agregasi SQL kustom (SUM & GROUP BY) langsung di level DAO Room SQLite sehingga perhitungan dilakukan di engine C SQLite yang sangat cepat sebelum diserahkan ke komponen MPAndroidChart.",
+          "Menghubungkan data agregasi saldo dari Room DB ke Android WebView menggunakan Chart.js: template HTML5/Canvas dinamis diinjeksi via binding.webView.loadDataWithBaseURL dengan penyesuaian tipe chart (pie/bar) dan legend otomatis.",
       },
     ],
     features: [
@@ -451,11 +451,11 @@ export const projectsList: ProjectItem[] = [
       },
       {
         title: "Bar Chart Arus Kas Bulanan",
-        desc: "Visualisasi perbandingan total pemasukan vs pengeluaran per bulan menggunakan library MPAndroidChart.",
+        desc: "Visualisasi perbandingan total pemasukan vs pengeluaran per bulan menggunakan Chart.js yang dirender secara responsif lewat Android WebView.",
       },
       {
         title: "Pie Chart Distribusi Pengeluaran",
-        desc: "Diagram lingkaran untuk memantau pos belanja mana yang paling banyak menghabiskan anggaran bulanan.",
+        desc: "Diagram lingkaran interaktif dengan legend dinamis untuk memantau pos belanja yang paling banyak menghabiskan anggaran bulanan.",
       },
       {
         title: "Filter & Riwayat Transaksi Fleksibel",
@@ -466,7 +466,7 @@ export const projectsList: ProjectItem[] = [
       { label: "Platform Mobile", value: "Android Native (Kotlin)" },
       { label: "Database Lokal", value: "Room Database (SQLite Offline-First)" },
       { label: "Pola Arsitektur", value: "MVVM (Model-View-ViewModel) + Repository Pattern" },
-      { label: "Charting Library", value: "MPAndroidChart (Interactive Bar & Pie Chart)" },
+      { label: "Visualisasi Grafik", value: "Android WebView + Chart.js (HTML5 Canvas)" },
       { label: "Komponen UI", value: "Material 3, ViewBinding, RecyclerView" },
       { label: "Asynchronous Engine", value: "Kotlin Coroutines & LiveData" },
     ],
