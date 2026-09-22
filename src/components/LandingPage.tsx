@@ -177,9 +177,9 @@ export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPage
               <motion.p
                 variants={fadeUp}
                 className="text-xs sm:text-sm leading-relaxed mb-6 sm:mb-7"
-                style={{ color: 'var(--text-muted)', maxWidth: '340px' }}
+                style={{ color: 'var(--text-muted)', maxWidth: '420px' }}
               >
-                Lulusan Teknik Informatika UMMI · Distinction Graduate Bangkit · IDCamp AI Engineer
+                Informatics Engineering Graduate | Android, Website & AI Development Enthusiast
               </motion.p>
 
               {/* Social icons */}

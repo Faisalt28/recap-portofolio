@@ -19,7 +19,7 @@ export interface ProjectItem {
   videoSrc?: string;
   link: string;
   linkText?: string;
-  category: "web" | "android";
+  category: "web" | "android" | "ml";
   badge: string;
   techStack: string[];
   githubLink?: string;
@@ -584,7 +584,7 @@ export const projectsList: ProjectItem[] = [
     imgSrc: "/projects/rekomendasi-film.png",
     link: "https://huggingface.co/spaces/Axion28/Sistem-Rekomendasi-Film",
     linkText: "Live Hugging Face Spaces",
-    category: "web",
+    category: "ml",
     badge: "Machine Learning",
     date: "2024",
     role: "Machine Learning Developer",

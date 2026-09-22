@@ -12,7 +12,7 @@ interface CatalogPageProps {
 }
 
 export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBack }: CatalogPageProps) {
-  const [filter, setFilter] = useState<'all' | 'web' | 'android'>('all')
+  const [filter, setFilter] = useState<'all' | 'web' | 'android' | 'ml'>('all')
   const isDark = theme === 'dark'
 
   const filtered = filter === 'all'
@@ -21,6 +21,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
 
   const webCount = projectsList.filter(p => p.category === 'web').length
   const androidCount = projectsList.filter(p => p.category === 'android').length
+  const mlCount = projectsList.filter(p => p.category === 'ml').length
 
   // Projects mapped for collage view
   const acheez = projectsList.find(p => p.id === 'acheez') || projectsList[0]
@@ -91,7 +92,7 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
                 Daftar Proyek
               </h1>
               <p className="text-xs sm:text-sm" style={{ color: 'var(--text-muted)' }}>
-                {projectsList.length} proyek pilihan · {webCount} website & AI · {androidCount} android
+                {projectsList.length} proyek pilihan · {webCount} website · {androidCount} android · {mlCount} machine learning
               </p>
             </div>
           </div>
@@ -100,8 +101,9 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
           <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             {([
               { key: 'all', label: 'Semua (Kolase)', icon: null },
-              { key: 'web', label: `Website & AI (${webCount})`, icon: <Globe className="w-3.5 h-3.5" /> },
+              { key: 'web', label: `Website (${webCount})`, icon: <Globe className="w-3.5 h-3.5" /> },
               { key: 'android', label: `Android (${androidCount})`, icon: <Smartphone className="w-3.5 h-3.5" /> },
+              { key: 'ml', label: `Machine Learning (${mlCount})`, icon: <Sparkles className="w-3.5 h-3.5" /> },
             ] as const).map(({ key, label, icon }) => (
               <button
                 key={key}

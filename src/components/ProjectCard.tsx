@@ -8,7 +8,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, onClick, variant = 'default' }: ProjectCardProps) {
-  const isOnline = project.category === 'web'
+  const isOnline = project.category === 'web' || project.category === 'ml'
   const isAndroid = project.category === 'android'
 
   // Variant: Collage Hero (Wide card for AcheeZ in collage)

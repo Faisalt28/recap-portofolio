@@ -35,7 +35,7 @@ interface ProjectDetailProps {
 
 export default function ProjectDetail({ project, theme, toggleTheme, onBack }: ProjectDetailProps) {
   const isDark = theme === 'dark'
-  const isWeb = project.category === 'web'
+  const isWeb = project.category === 'web' || project.category === 'ml'
   const accentColor = isWeb ? '#10b981' : '#a78bfa'
   const accentBg = isWeb ? 'rgba(16,185,129,0.1)' : 'rgba(139,92,246,0.1)'
   const accentBorder = isWeb ? 'rgba(16,185,129,0.25)' : 'rgba(139,92,246,0.25)'
