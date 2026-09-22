@@ -162,10 +162,10 @@ export const projectsList: ProjectItem[] = [
   // Proyek 2: RS MediTrack (Live Deployed Web)
   {
     id: "rs-meditrack",
-    title: "RS MediTrack — Sistem Presensi & Manajemen SDM RS",
+    title: "RS MediTrack — Sistem Presensi & Manajemen Sif Rumah Sakit",
     shortTitle: "RS MediTrack",
     description:
-      "Website manajemen presensi dan koordinasi SDM rumah sakit terpadu untuk Dokter, Perawat, Kepala Ruangan, hingga Manajemen HRD. Dilengkapi verifikasi geofencing GPS, live selfie, dan penjadwalan shift otomatis.",
+      "Aplikasi web modern untuk manajemen presensi tenaga medis, pengaturan jadwal dinas (sif), pengajuan cuti, dan alur pertukaran sif rumah sakit dengan validasi radius GPS (geofencing) serta verifikasi kamera selfie secara real-time.",
     imgSrc: "/projects/rs-meditrack.png",
     videoSrc: "/projects/rs-meditrack-demo-compressed.mp4",
     link: "https://rs-meditrack.pages.dev/",
@@ -175,70 +175,99 @@ export const projectsList: ProjectItem[] = [
     date: "Oktober 2024 – November 2024",
     role: "Frontend & Full-Stack Developer",
     techStack: [
-      "React",
+      "React 19",
       "TypeScript",
-      "Tailwind CSS",
-      "Geofencing GPS API",
-      "HTML5 Camera API",
-      "Role-Based Access (RBAC)",
-      "Cloudflare Pages",
+      "Tailwind CSS v4",
+      "Radix UI",
+      "Hono.js",
+      "Cloudflare Workers",
+      "Cloudflare D1 Database",
+      "Recharts",
+      "SheetJS (xlsx)",
     ],
     githubLink: "https://github.com/Faisalt28/react-hospital-attendant",
     overview:
-      "RS MediTrack mengintegrasikan kedisiplinan kerja staf medis dan non-medis, manajemen jadwal shift dinas otomatis (pagi, siang, malam), dan verifikasi presensi geofencing berbasis GPS serta live camera selfie untuk memastikan transparansi kehadiran dan standar keselamatan pasien terbaik.",
+      "Manajemen sumber daya manusia di rumah sakit memiliki kompleksitas tinggi dan risiko pelayanan pasien yang kritis karena:\n1. Risiko kecurangan presensi & titip absen: Sulit memastikan apakah staf medis benar-benar sudah berada di area instalasi gawat darurat (IGD) atau ruangan rawat inap saat jam pergantian sif.\n2. Kekacauan alur tukar dinas antar-nakes: Perawat dan dokter sering bertukar sif dinas secara mendadak. Jika koordinasi hanya lewat grup chat, kepala ruangan sering luput mencatat dan berisiko menimbulkan kekosongan tenaga medis di unit kritis.\n3. Pencatatan manual yang lambat: Rekap kehadiran dan jatah cuti tahunan sering tercecer sehingga proses pembuatan laporan bulanan oleh HRD memakan waktu lama.\n\nRS MediTrack dibuat untuk memastikan setiap tenaga medis hadir tepat waktu di titik lokasi rumah sakit yang valid, dengan jadwal dinas yang transparan dan alur pertukaran sif yang tercatat resmi.",
     problem:
-      "Rumah sakit dengan ratusan staf medis menghadapi tantangan validitas presensi manual yang rawan kecurangan (titip absen), kompleksitas rotasi shift dinas 24 jam, serta sulitnya rekapitulasi kehadiran real-time antar-ruangan rawat inap dan IGD.",
+      "Risiko kecurangan presensi staf medis, kekacauan koordinasi tukar dinas via chat informal, serta lambatnya rekapitulasi kehadiran dan cuti manual di rumah sakit.",
     solution:
-      "RS MediTrack menyediakan portal web terpusat dengan validasi ganda: radius geofencing GPS presisi dan live camera snapshot tanpa file upload, sistem penjadwalan shift terstruktur, serta hierarki hak akses (RBAC) bertingkat.",
+      "RS MediTrack menghadirkan sistem presensi geofencing GPS + live selfie, alur persetujuan tukar sif 2 tingkat, dan portal berbasis peran untuk memastikan keandalan tenaga medis.",
     techArchitecture: {
-      frontendOrMobile: "React, TypeScript, Tailwind CSS, Lucide Icons",
-      backendOrDatabase: "RESTful Web Services, Local Storage & State Cache",
-      architectureOrPattern: "Role-Based Access Control (RBAC), Geofencing Radius Verification, Real-Time Shift Scheduler",
+      frontendOrMobile: "React 19, TypeScript, Tailwind CSS v4, Radix UI (Antarmuka responsif ramah mobile untuk staf dan dashboard lengkap manajemen)",
+      backendOrDatabase: "Hono.js, Cloudflare Workers & Cloudflare D1 Database (Infrastruktur komputasi serverless edge tanpa server fisik dengan basis data SQL SQLite terdistribusi global yang sangat cepat)",
+      architectureOrPattern: "Pola Hybrid Local-First (Custom Hook LocalStorage + Reactive Event Bus), Web MediaDevices API + Haversine Formula, Recharts & SheetJS",
     },
     challenges: [
       {
-        title: "Akurasi Geofencing & Penanganan Fake GPS",
+        title: "Validasi Presensi Ganda: Geofencing GPS Matematis & Anti-Titip Absen",
         problem:
-          "Presensi mobile rentan dimanipulasi dengan mock location atau koordinat GPS palsu saat staf berada di luar rumah sakit.",
+          "Pegawai bisa saja melakukan presensi dari rumah atau memalsukan lokasi (mock GPS), serta melakukan titip absen tanpa benar-benar berada di tempat kerja.",
         solution:
-          "Mengombinasikan validasi HTML5 Geolocation API dengan batas toleransi akurasi koordinat (accuracy margin < 50m) dan penolakan timestamp deviasi.",
+          "Dibuat algoritma kalkulasi jarak menggunakan rumus Haversine yang mengunci radius koordinat rumah sakit (misal: radius 100 meter). Tombol presensi otomatis terkunci jika staf berada di luar zona aman. Selain itu, sistem mewajibkan pengambilan foto selfie langsung dari kamera depan sebagai bukti fisik kehadiran.",
       },
       {
-        title: "Live Snapshot Anti-Fraud Tanpa File Upload",
+        title: "Alur Tukar Sif 2 Tingkat (2-Tier Shift Swap Approval) Anti-Jadwal Bentrok",
         problem:
-          "Mengizinkan upload file dari galeri membuka celah penggunaan foto selfie lama atau tangkapan layar tiruan.",
+          "Jika pegawai langsung menukar sif tanpa persetujuan rekan yang dituju atau tanpa sepengetahuan kepala ruangan, sering terjadi ketidakhadiran karena rekan yang bersangkutan tidak merasa setuju menggantikan dinas.",
         solution:
-          "Mengunci input kamera menggunakan stream langsung HTML5 MediaDevices (facingMode: user) dan merender frame langsung ke canvas tanpa opsi unggah file lokal.",
+          "Sistem menerapkan persetujuan dua pintu berantai:\n1. Tingkat 1 (Persetujuan Rekan): Permintaan tukar harus disetujui terlebih dahulu oleh rekan sejawat yang bersangkutan (peerStatus: approved).\n2. Tingkat 2 (Persetujuan Supervisor): Setelah disetujui rekan, notifikasi diteruskan ke Kepala Ruangan/Supervisor. Saat disetujui, sistem secara otomatis menukar kepemilikan jadwal dinas kedua pegawai di basis data tanpa risiko jadwal ganda.",
+      },
+      {
+        title: "Sinkronisasi Data Multi-Perangkat (Desktop Admin & HP Pegawai Selalu Sinkron)",
+        problem:
+          "Admin HRD memperbarui jadwal di komputer kantor, sementara staf medis melihat jadwal lewat HP saat pergantian sif. Terjadinya delay pembaruan data dapat memicu salah jadwal dinas.",
+        solution:
+          "Menggabungkan sinkronisasi background push ke Cloudflare D1 dengan mekanisme pendeteksi fokus browser (visibilitychange / focus) serta polling berkala. Setiap kali pegawai membuka kembali aplikasi di HP, data roster sif terbaru langsung terunduh detik itu juga.",
       },
     ],
     features: [
       {
-        title: "Verifikasi Presensi Geofencing GPS",
-        desc: "Validasi radius lokasi secara presisi untuk memastikan presensi hanya sah saat staf berada di area rumah sakit.",
+        title: "3 Portal Akses Berbasis Peran (RBAC)",
+        desc: "Admin/HRD untuk manajemen seluruh departemen (IGD, ICU, Rawat Inap, Farmasi, Lab, Radiologi) & audit bukti foto; Supervisor/Kepala Ruangan untuk roster jadwal & persetujuan; Employee/Pegawai untuk presensi GPS & selfie, jadwal pribadi, tukar jaga, dan cuti.",
       },
       {
-        title: "Manajemen Jadwal Shift Dinas Otomatis",
-        desc: "Pengaturan rotasi dinas dan jadwal kerja dokter, perawat, dan tenaga medis secara dinamis dan terstruktur.",
+        title: "Presensi Cerdas & Klasifikasi Otomatis",
+        desc: "Sistem otomatis mengklasifikasikan kehadiran pegawai (Tepat Waktu, Terlambat, atau Pulang Cepat) berdasarkan jam toleransi yang dikonfigurasi rumah sakit.",
       },
       {
-        title: "Role-Based Access Control (RBAC)",
-        desc: "Portal terpisah dengan hak akses spesifik untuk Staf/Nakes, Kepala Ruangan, hingga Tim Manajemen HRD.",
+        title: "Manajemen Sif Fleksibel & Lintas Hari",
+        desc: "Mendukung pengaturan sif pagi, siang, dan dinas malam lintas hari (overnight shift) dengan kode warna visual.",
       },
       {
-        title: "Live Camera Selfie & Anti-Fraud",
-        desc: "Deteksi kehadiran dengan foto langsung untuk mencegah kecurangan absensi dan titip kehadiran.",
+        title: "Pengajuan Cuti Digital",
+        desc: "Dilengkapi pengunggahan surat keterangan sakit atau berkas lampiran pendukung secara langsung.",
       },
       {
-        title: "Dashboard Rekapitulasi & Pelaporan",
-        desc: "Rekap data kehadiran real-time, status dinas per ruangan, dan export rekapitulasi untuk evaluasi HRD.",
+        title: "Audit & Ekspor Laporan Excel (SheetJS)",
+        desc: "Unduh rekapitulasi data jam kerja, lembur, dan persentase kehadiran pegawai ke format Excel untuk keperluan penggajian (payroll).",
+      },
+      {
+        title: "Keamanan Akun & Paksa Ubah Password",
+        desc: "Fitur paksa ganti kata sandi bawaan (RS-2026) pada login pertama kali agar akun setiap staf tetap terlindungi.",
       },
     ],
     architecture: [
-      { label: "Kategori Platform", value: "Hospital Staff Management & Attendance Portal" },
-      { label: "Verifikasi Lokasi", value: "Browser Geolocation API + Geofence Radius Calculation" },
-      { label: "Autentikasi & Otorisasi", value: "Multi-Role RBAC (Dokter, Perawat, Kepala Ruangan, HRD)" },
-      { label: "Antarmuka Pengguna", value: "Modern Responsive Dashboard, Tailwind CSS, Dark/Light Mode" },
-      { label: "Status Proyek", value: "Online Web Solution" },
+      { label: "Tampilan (Frontend)", value: "React 19, TypeScript, Tailwind CSS v4, Radix UI" },
+      { label: "Manajemen Sinkronisasi Data", value: "Custom Hook LocalStorage + Reactive Event Bus (Pola hybrid local-first)" },
+      { label: "Kamera & Geofencing GPS", value: "Web MediaDevices API + Formula Matematis Haversine (Radius 100m)" },
+      { label: "Backend API Framework", value: "Hono.js (Web Standards Ultra-Fast API)" },
+      { label: "Serverless Edge Runtime", value: "Cloudflare Workers (Komputasi tanpa server fisik)" },
+      { label: "Database Layer", value: "Cloudflare D1 Database (Serverless SQLite Terdistribusi)" },
+      { label: "Grafik & Ekspor Laporan", value: "Recharts & SheetJS xlsx (Visualisasi tren & Ekspor Excel)" },
+    ],
+    highlights: [
+      {
+        title: "Validasi Presensi Ganda Anti-Titip Absen",
+        desc: "Radius geofencing GPS formula Haversine dipadukan dengan pengambilan live selfie kamera depan tanpa opsi unggah galeri.",
+      },
+      {
+        title: "2-Tier Shift Swap Approval Berantai",
+        desc: "Alur tukar jadwal 2 tingkat (persetujuan rekan sejawat + verifikasi kepala ruangan) untuk mencegah kekosongan tenaga medis.",
+      },
+      {
+        title: "Multi-Device Background Sync",
+        desc: "Sinkronisasi otomatis antara desktop admin dan mobile pegawai dengan pendeteksi fokus browser dan Cloudflare D1.",
+      },
     ],
   },
 
