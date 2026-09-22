@@ -602,73 +602,74 @@ export const projectsList: ProjectItem[] = [
     interactiveCalloutDesc:
       "Coba langsung filter genre, pilih judul film favorit, dan dapatkan rekomendasi film serupa secara live di Hugging Face Spaces.",
     overview:
-      "Sistem Rekomendasi Film ini dibangun untuk membantu pengguna menemukan tontonan baru yang sesuai dengan selera mereka tanpa harus mencari secara manual dari ribuan judul. Dengan memanfaatkan dataset film komprehensif dari Kaggle, sistem menganalisis karakteristik metadata film (sinopsis cerita, genre, dan rating) menggunakan pendekatan Machine Learning Content-Based Filtering (CBF).\n\nAplikasi dideploy secara interaktif di Hugging Face Spaces menggunakan antarmuka Gradio yang responsif dan mudah digunakan.",
+      "Sistem Rekomendasi Film ini dibangun untuk membantu pengguna menemukan tontonan baru yang sesuai dengan selera tanpa harus mencari manual dari ribuan judul. Menggunakan dataset IMDb Movies dari Kaggle (amanbarthwal/imdb-movies-data) yang dipreprocessing dari 10.000 menjadi 9.627 film bersih.\n\nSistem menggabungkan fitur genre, tahun rilis, dan sinopsis menjadi representasi vektor TF-IDF, lalu menghitung Cosine Similarity untuk menghasilkan rekomendasi film serupa. Model diserialisasi menggunakan Pickle dan dideploy interaktif di Hugging Face Spaces dengan antarmuka Gradio.",
     problem:
-      "Pengguna sering mengalami kebingungan (decision fatigue) saat memilih film karena banyaknya pilihan tanpa adanya panduan rekomendasi yang relevan berdasarkan kesamaan konten cerita dan preferensi genre.",
+      "Pengguna kerap mengalami decision fatigue saat memilih film karena banyaknya pilihan tanpa panduan rekomendasi yang relevan berdasarkan kesamaan alur cerita dan genre.",
     solution:
-      "Mengimplementasikan model Content-Based Filtering dengan representasi teks TF-IDF dan kalkulasi Cosine Similarity untuk mengukur kedekatan antar-film, disajikan dalam web app Gradio yang memungkinkan eksplorasi genre dan rekomendasi instan.",
+      "Mengimplementasikan model Content-Based Filtering menggunakan representasi gabungan (Genre + Year + Description) dengan TF-IDF dan Cosine Similarity, disajikan via web app Gradio yang memungkinkan pemilihan genre dinamis dan rekomendasi instan.",
     techArchitecture: {
-      frontendOrMobile: "Gradio Web Interface (Interactive UI dengan Multi-Genre Checkbox, Dynamic Dropdown & Card Status)",
-      backendOrDatabase: "Python, Pandas DataFrames (Kaggle Film Dataset), Scikit-learn Feature Extraction",
-      architectureOrPattern: "Content-Based Filtering (CBF), TF-IDF Vectorization, Cosine Similarity Matrix, Hugging Face Spaces Deployment",
+      frontendOrMobile: "Gradio Web UI (Multi-Genre Checkbox, Dynamic Movie Dropdown & Status Card)",
+      backendOrDatabase: "Python, Pandas (IMDb Kaggle Dataset - 9.627 Film), Scikit-learn, Pickle Serialization",
+      architectureOrPattern: "Content-Based Filtering (CBF), TF-IDF Vectorization (19.490 Fitur), Cosine Similarity Matrix, Hugging Face Spaces",
     },
     challenges: [
       {
-        title: "Ekstraksi Fitur Teks & Perhitungan Cosine Similarity",
+        title: "Pembersihan Data & Feature Engineering Multidimensi",
         problem:
-          "Mencari kemiripan antar-film berdasarkan sinopsis dan genre dari ribuan baris dataset membutuhkan kalkulasi kesamaan konten yang akurat dan efisien.",
+          "Dataset mentah memiliki nilai null pada genre, rating, tahun, serta 366 judul duplikat yang dapat merusak akurasi pemetaan kemiripan.",
         solution:
-          "Memanfaatkan TfidfVectorizer dari scikit-learn untuk mentransformasi teks sinopsis dan genre ke dalam representasi vektor bobot TF-IDF, kemudian menghitung matriks Cosine Similarity untuk menentukan derajat kedekatan sudut antar-vektor film.",
+          "Membersihkan data null dan duplikat, melakukan imputasi rata-rata pada rating/tahun, lalu menggabungkan kolom Genre, Year, dan Description menjadi satu fitur representasi teks terpadu (combined_features) untuk 9.627 film.",
       },
       {
-        title: "Filter Dinamis Berbasis Genre & Rating Top 10",
+        title: "Vektorisasi TF-IDF & Matriks Cosine Similarity Efisien",
         problem:
-          "Pengguna membutuhkan fleksibilitas memilih banyak genre sekaligus (multi-select) serta melihat film dengan rating tertinggi sebelum memilih judul spesifik.",
+          "Menghitung tingkat kesamaan semantik antar-film secara cepat dan akurat di lingkungan web app tanpa komputasi ulang yang berat.",
         solution:
-          "Membangun logika filter berlapis menggunakan Pandas: sistem memfilter subset data sesuai genre yang dicentang, mengurutkan Top 10 berdasarkan rating IMDb, dan secara dinamis memperbarui pilihan dropdown serta detail film secara real-time di Gradio.",
+          "Mengekstrak 19.490 fitur kosakata menggunakan TfidfVectorizer (English stop words), menghitung matriks Cosine Similarity (9.627 x 9.627), lalu mengekspor model ke 'rekomendasi_film.pkl' agar inferensi top-5 film serupa berjalan instan di Gradio.",
       },
       {
-        title: "Deployment Serverless AI di Hugging Face Spaces",
+        title: "Filter Interaktif Top 10 Rating & Cloud Deployment",
         problem:
-          "Menyediakan akses publik untuk model machine learning dan dataset tanpa kompleksitas pengelolaan server fisik mandiri.",
+          "Menyajikan alur rekomendasi dua tahap (filter Top 10 rating per genre + rekomendasi kemiripan konten) di container cloud publik yang ringan.",
         solution:
-          "Mendeploy aplikasi secara terisolasi di container cloud Hugging Face Spaces dengan runtime Python dan Gradio, memastikan aplikasi selalu aktif (Running) dan dapat diakses publik dengan waktu muat yang cepat.",
+          "Membangun fungsi penyaringan Pandas untuk menampilkan 10 film dengan rating tertinggi sesuai genre pilihan, dan mendeploy aplikasi ke Hugging Face Spaces berbasis container Python & Gradio.",
       },
     ],
     features: [
       {
-        title: "Multi-Genre Selection",
-        desc: "Pilihan filter genre lengkap (Action, Adventure, Sci-Fi, Drama, Comedy, Horror, dll.) untuk mempersempit katalog film sesuai preferensi.",
+        title: "Multi-Genre Selection & Filter",
+        desc: "Pilihan genre lengkap (Action, Animation, Drama, Sci-Fi, dll.) untuk menyaring katalog film secara spesifik.",
       },
       {
-        title: "Top 10 Film Berdasarkan Rating",
-        desc: "Menampilkan daftar 10 film terbaik dengan skor rating tertinggi dari genre yang dipilih sebagai referensi cepat.",
+        title: "Top 10 Film Berdasarkan Rating IMDb",
+        desc: "Menampilkan daftar 10 film dengan rating skor tertinggi dari genre yang dipilih pengguna.",
       },
       {
         title: "Rekomendasi Film Serupa (CBF)",
-        desc: "Menghasilkan rekomendasi film yang memiliki kemiripan alur cerita dan genre tertinggi menggunakan algoritma Content-Based Filtering.",
+        desc: "Menghasilkan 5 rekomendasi film yang memiliki skor Cosine Similarity tertinggi berdasarkan kesamaan sinopsis dan genre.",
       },
       {
-        title: "Detail & Sinopsis Lengkap",
-        desc: "Informasi mendalam mencakup tahun rilis, rating bintang, dan ringkasan sinopsis cerita film yang dipilih.",
+        title: "Detail & Sinopsis Film",
+        desc: "Menampilkan metadata lengkap film mencakup tahun rilis, rating IMDb, dan ringkasan sinopsis cerita.",
       },
     ],
     architecture: [
       { label: "Framework UI", value: "Gradio (Python Interactive Web UI)" },
-      { label: "Bahasa Pemrograman", value: "Python 3.x" },
-      { label: "Algoritma Rekomendasi", value: "Content-Based Filtering (Cosine Similarity)" },
-      { label: "Machine Learning Library", value: "Scikit-learn (TfidfVectorizer, Metric Similarity)" },
-      { label: "Pengolahan Data", value: "Pandas & NumPy (Kaggle Dataset)" },
+      { label: "Sumber Dataset", value: "IMDb Movies (Kaggle: amanbarthwal/imdb-movies-data)" },
+      { label: "Jumlah Data Bersih", value: "9.627 film (dipreprocessing dari 10.000 data)" },
+      { label: "Algoritma & Metrik", value: "Content-Based Filtering (Cosine Similarity Matrix)" },
+      { label: "Vektorisasi Teks", value: "Scikit-learn TfidfVectorizer (19.490 fitur kosakata)" },
+      { label: "Serialisasi Model", value: "Python Pickle (rekomendasi_film.pkl)" },
       { label: "Platform Hosting", value: "Hugging Face Spaces (Cloud AI Container)" },
     ],
     highlights: [
       {
         title: "Content-Based Machine Learning",
-        desc: "Menganalisis kemiripan semantik sinopsis dan genre menggunakan representasi vektor TF-IDF dan Cosine Similarity.",
+        desc: "Menganalisis kemiripan semantik sinopsis, genre, dan tahun rilis menggunakan TF-IDF dan Cosine Similarity.",
       },
       {
         title: "Cloud Deployment di Hugging Face",
-        desc: "Berjalan stabil di infrastruktur Hugging Face Spaces dengan antarmuka web interaktif berbasis Gradio.",
+        desc: "Inferensi model instan via artifact Pickle dan antarmuka interaktif Gradio di Hugging Face Spaces.",
       },
     ],
   },
