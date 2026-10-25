@@ -1,5 +1,5 @@
 import React from "react";
-import { MoveUpRight, Sparkles, Globe, Smartphone } from "lucide-react";
+import { MoveUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export interface ProjectsTypes {
@@ -75,9 +75,6 @@ export default function ConditionGrid({
             : "col-span-12 lg:col-span-5";
         }
 
-        const isML = project.category === "ml" || project.badge === "Machine Learning";
-        const isAndroid = project.category === "android";
-
         return (
           <motion.article
             key={project.id ?? project.title}
@@ -107,15 +104,8 @@ export default function ConditionGrid({
               {/* Top Tags Overlay */}
               <div className="absolute top-3 sm:top-4 left-3 sm:left-4 right-3 sm:right-4 flex items-center justify-between pointer-events-none">
                 {project.badge && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md bg-black/60 text-white border border-white/20 shadow-sm">
-                    {isML ? (
-                      <Sparkles className="w-3 h-3 text-emerald-400" />
-                    ) : isAndroid ? (
-                      <Smartphone className="w-3 h-3 text-purple-400" />
-                    ) : (
-                      <Globe className="w-3 h-3 text-emerald-400" />
-                    )}
-                    <span>{project.badge}</span>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md bg-black/60 text-white border border-white/20 shadow-sm">
+                    {project.badge}
                   </span>
                 )}
                 <span className="ml-auto inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-medium backdrop-blur-md bg-black/50 text-white/80 border border-white/15">

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Moon, Sun, ArrowLeft, Globe, Smartphone, Sparkles } from 'lucide-react'
+import { Moon, Sun, ArrowLeft } from 'lucide-react'
 import { projectsList, type ProjectItem } from '../data/projects'
 import ConditionGrid, { type ProjectsTypes } from '@/components/ui/conditiongrid'
 
@@ -104,15 +104,15 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
           {/* Filter tabs */}
           <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             {([
-              { key: 'all', label: `Semua (${projectsList.length})`, icon: null },
-              { key: 'web', label: `Website (${webCount})`, icon: <Globe className="w-3.5 h-3.5" /> },
-              { key: 'android', label: `Android (${androidCount})`, icon: <Smartphone className="w-3.5 h-3.5" /> },
-              { key: 'ml', label: `Machine Learning (${mlCount})`, icon: <Sparkles className="w-3.5 h-3.5" /> },
-            ] as const).map(({ key, label, icon }) => (
+              { key: 'all', label: `Semua (${projectsList.length})` },
+              { key: 'web', label: `Website (${webCount})` },
+              { key: 'android', label: `Android (${androidCount})` },
+              { key: 'ml', label: `Machine Learning (${mlCount})` },
+            ] as const).map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setFilter(key)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer"
                 style={filter === key ? {
                   background: '#10b981',
                   color: '#fff',
@@ -123,7 +123,6 @@ export default function CatalogPage({ theme, toggleTheme, onSelectProject, onBac
                   border: '1px solid var(--border)',
                 }}
               >
-                {icon}
                 {label}
               </button>
             ))}
