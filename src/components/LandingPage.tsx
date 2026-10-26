@@ -1,11 +1,12 @@
-import { useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { Moon, Sun, ArrowRight } from 'lucide-react'
+import React from 'react'
+import { motion } from 'framer-motion'
+import { Moon, Sun } from 'lucide-react'
+import { TextRewind } from '@/components/ui/text-rewind'
 
 interface LandingPageProps {
   theme: 'dark' | 'light'
   toggleTheme: () => void
-  onEnter: () => void
+  onEnter?: () => void
 }
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -24,234 +25,175 @@ function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-
-  const mouseXSpring = useSpring(x, { stiffness: 200, damping: 20 })
-  const mouseYSpring = useSpring(y, { stiffness: 200, damping: 20 })
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['8deg', '-8deg'])
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-8deg', '8deg'])
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    x.set((e.clientX - rect.left) / rect.width - 0.5)
-    y.set((e.clientY - rect.top) / rect.height - 0.5)
-  }
-
-  const handleMouseLeave = () => {
-    x.set(0)
-    y.set(0)
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: 'preserve-3d', perspective: 800 }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
-}
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
-}
-
-export default function LandingPage({ theme, toggleTheme, onEnter }: LandingPageProps) {
+export default function LandingPage({ theme, toggleTheme }: LandingPageProps) {
   const isDark = theme === 'dark'
 
   return (
     <div
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-x-hidden py-10 px-4 sm:px-6"
+      className="relative min-h-screen w-full flex flex-col justify-between overflow-x-hidden"
       style={{ background: 'var(--bg)' }}
     >
-      {/* Dark mode ambient glow */}
+      {/* Ambient background glow — dark only */}
       {isDark && (
         <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full opacity-40"
-            style={{ background: 'radial-gradient(ellipse, rgba(16,185,129,0.12) 0%, transparent 70%)' }} />
-          <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] rounded-full opacity-30"
-            style={{ background: 'radial-gradient(ellipse, rgba(99,102,241,0.1) 0%, transparent 70%)' }} />
+          <div
+            className="absolute top-[-15%] left-[20%] w-[700px] h-[550px] rounded-full opacity-35 blur-[150px]"
+            style={{ background: 'radial-gradient(circle, rgba(7, 188, 204, 0.25) 0%, transparent 70%)' }}
+          />
+          <div
+            className="absolute bottom-[-10%] right-[15%] w-[600px] h-[500px] rounded-full opacity-30 blur-[160px]"
+            style={{ background: 'radial-gradient(circle, rgba(230, 1, 192, 0.2) 0%, transparent 70%)' }}
+          />
         </div>
       )}
 
-      {/* Theme toggle */}
-      <button
-        onClick={toggleTheme}
-        aria-label="Toggle theme"
-        className="fixed top-4 right-4 sm:top-5 sm:right-5 z-50 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer"
-        style={{
-          background: 'var(--bg-card)',
-          border: '1px solid var(--border)',
-          color: 'var(--text-secondary)',
-          borderRadius: '8px',
-        }}
-      >
-        {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-      </button>
+      {/* Top Bar: Brand & Theme Toggle */}
+      <header className="w-full px-5 sm:px-8 lg:px-14 py-5 flex items-center justify-between z-20">
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="font-mono text-xs sm:text-sm font-semibold tracking-wider uppercase text-neutral-500 dark:text-neutral-400">
+            Faisal Triaputra
+          </span>
+        </div>
 
-      {/* Main card — horizontal layout on desktop, stacked on mobile */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className="w-full max-w-3xl my-auto"
-      >
-        <TiltCard>
-          <div
-            className="flex flex-col md:flex-row items-center md:items-stretch gap-0 overflow-hidden"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: '20px',
-              boxShadow: isDark
-                ? '0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04)'
-                : '0 32px 80px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04)',
-            }}
+        <button
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-105 cursor-pointer shadow-sm"
+          style={{
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-neutral-700" />}
+        </button>
+      </header>
+
+      {/* Main Full-Screen Hero Content */}
+      <main className="flex-1 flex items-center justify-center w-full px-5 sm:px-8 lg:px-14 py-4 sm:py-8 my-auto">
+        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 xl:gap-12 items-center">
+          
+          {/* Kolom Kiri: PORTOFOLIO (TextRewind), Nama, Deskripsi & Sosial Media */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="lg:col-span-7 xl:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left z-10"
           >
-            {/* Photo panel */}
-            <div className="relative w-full md:w-64 shrink-0 overflow-hidden rounded-t-[20px] md:rounded-t-none md:rounded-l-[20px]">
-              <div className="w-full h-60 sm:h-72 md:h-full min-h-[220px] sm:min-h-[280px] overflow-hidden">
-                <motion.img
-                  src="/profile.jpg"
-                  alt="Faisal Triaputra"
-                  className="w-full h-full object-cover object-top"
-                  whileHover={{ scale: 1.04 }}
-                  transition={{ duration: 0.5, ease: 'easeOut' }}
-                  draggable={false}
-                />
-              </div>
-              {/* Subtle overlay gradient */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: isDark
-                    ? 'linear-gradient(135deg, rgba(16,185,129,0.08) 0%, transparent 60%)'
-                    : 'linear-gradient(135deg, rgba(16,185,129,0.05) 0%, transparent 60%)',
+            {/* Tagline / Kicker Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium mb-3 sm:mb-4 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <span>Software & AI Engineer</span>
+            </div>
+
+            {/* Tulisan PORTOFOLIO dengan komponen TextRewind */}
+            <div className="w-full pr-4 sm:pr-8 lg:pr-10 pb-4 sm:pb-6 overflow-visible">
+              <TextRewind
+                text="PORTOFOLIO"
+                className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black italic tracking-wider sm:tracking-widest text-center lg:text-left select-none drop-shadow-sm"
+                shadowColors={{
+                  first: "#07bccc",
+                  second: "#e601c0",
+                  third: "#e9019a",
+                  fourth: "#f40468",
+                  glow: "#f40468",
                 }}
               />
             </div>
 
-            {/* Divider */}
-            <div className="hidden md:block w-px shrink-0" style={{ background: 'var(--border)' }} />
-
-            {/* Info panel */}
+            {/* Di bawah tulisan ini: Nama Faisal Triaputra, S.Kom. */}
             <motion.div
-              variants={stagger}
-              initial="hidden"
-              animate="show"
-              className="flex flex-col justify-center flex-1 p-5 sm:p-8 md:p-10 text-left w-full"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="mt-3 sm:mt-5"
             >
-
-              {/* Name */}
-              <motion.h1
-                variants={fadeUp}
-                className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-none mb-1"
-                style={{ color: 'var(--text-primary)' }}
-              >
-                Faisal
-              </motion.h1>
-              <motion.h1
-                variants={fadeUp}
-                className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-none mb-4 sm:mb-5"
-                style={{ color: 'var(--text-primary)' }}
-              >
-                Triaputra
-                <span style={{ color: '#10b981' }}>.</span>
-              </motion.h1>
-
-              {/* Bio */}
-              <motion.p
-                variants={fadeUp}
-                className="text-xs sm:text-sm leading-relaxed mb-6 sm:mb-7"
-                style={{ color: 'var(--text-muted)', maxWidth: '420px' }}
-              >
-                Informatics Engineering Graduate | Android, Website & AI Development Enthusiast
-              </motion.p>
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-neutral-900 dark:text-white">
+                Faisal Triaputra, <span className="text-emerald-500 font-semibold">S.Kom.</span>
+              </h1>
+              
+              <p className="text-xs sm:text-base md:text-lg leading-relaxed text-neutral-600 dark:text-neutral-400 mt-2 sm:mt-3 max-w-xl font-medium">
+                Informatics Engineering Graduate | Android, Website &amp; AI Development Enthusiast
+              </p>
 
               {/* Social icons */}
-              <motion.div variants={fadeUp} className="flex items-center gap-3 mb-6 sm:mb-8">
+              <div className="flex items-center justify-center lg:justify-start gap-3 mt-5 sm:mt-6">
                 <a
                   href="https://github.com/Faisalt28"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
-                  className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer group"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer shadow-sm group"
                   style={{
-                    background: 'var(--bg-subtle)',
+                    background: 'var(--bg-card)',
                     border: '1px solid var(--border)',
                     color: 'var(--text-secondary)',
-                    borderRadius: '8px',
                   }}
                 >
-                  <GithubIcon className="w-4 h-4 group-hover:text-emerald-400 transition-colors" />
+                  <GithubIcon className="w-4 h-4 sm:w-5 sm:h-5 group-hover:text-emerald-500 transition-colors" />
                 </a>
+
                 <a
                   href="https://www.linkedin.com/in/faisal-triaputra"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer group"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110 cursor-pointer shadow-sm group"
                   style={{
-                    background: 'var(--bg-subtle)',
+                    background: 'var(--bg-card)',
                     border: '1px solid var(--border)',
                     color: 'var(--text-secondary)',
-                    borderRadius: '8px',
                   }}
                 >
-                  <LinkedinIcon className="w-4 h-4 group-hover:text-blue-400 transition-colors" />
+                  <LinkedinIcon className="w-4 h-4 sm:w-5 sm:h-5 group-hover:text-blue-500 transition-colors" />
                 </a>
-              </motion.div>
-
-              {/* CTA Button */}
-              <motion.div variants={fadeUp}>
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={onEnter}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-wide cursor-pointer transition-all duration-200 group"
-                  style={{
-                    background: isDark ? '#ffffff' : '#0d1117',
-                    color: isDark ? '#0d1117' : '#ffffff',
-                    borderRadius: '8px',
-                    border: 'none',
-                    boxShadow: isDark
-                      ? '0 4px 20px rgba(255,255,255,0.1)'
-                      : '0 4px 20px rgba(0,0,0,0.2)',
-                  }}
-                >
-                  <span>Lihat Proyek Saya</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </motion.button>
-              </motion.div>
+              </div>
             </motion.div>
-          </div>
-        </TiltCard>
-      </motion.div>
+          </motion.div>
+
+          {/* Kolom Kanan: Foto Profil yang Telah Disiapkan */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+            className="lg:col-span-5 xl:col-span-5 flex justify-center lg:justify-end"
+          >
+            <div className="relative group">
+              {/* Decorative background aura glow behind image */}
+              <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-cyan-500/25 via-pink-500/25 to-emerald-500/25 blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+
+              {/* Framed Photo Card */}
+              <div
+                className="p-2 sm:p-2.5 rounded-[26px] sm:rounded-[30px] transition-transform duration-500 group-hover:scale-[1.02]"
+                style={{
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                  boxShadow: isDark
+                    ? '0 25px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06)'
+                    : '0 25px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.04)',
+                }}
+              >
+                <div className="w-[220px] sm:w-[270px] md:w-[310px] lg:w-[320px] xl:w-[360px] aspect-[3/4] overflow-hidden rounded-[20px] sm:rounded-[24px] bg-neutral-950 relative">
+                  <img
+                    src="/profile.jpg"
+                    alt="Faisal Triaputra, S.Kom."
+                    className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                    loading="eager"
+                  />
+                  {/* Subtle glass reflection overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+        </div>
+      </main>
 
       {/* Footer */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.6 }}
-        className="mt-6 md:mt-8 text-xs text-center"
-        style={{ color: 'var(--text-muted)' }}
-      >
-        © {new Date().getFullYear()} Faisal Triaputra
-      </motion.p>
+      <footer className="w-full py-4 text-center text-xs" style={{ color: 'var(--text-muted)' }}>
+        © {new Date().getFullYear()} Faisal Triaputra, S.Kom.
+      </footer>
     </div>
   )
 }
